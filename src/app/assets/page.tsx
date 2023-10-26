@@ -23,6 +23,7 @@ export default async function Assets() {
       <div className="flex flex-col space-y-4">
         {allAssets.assets.map((asset: Asset) => (
           <Link
+            key={asset.id}
             href={`assets/${asset.id}`}
             className="flex items-center space-x-2"
           >
