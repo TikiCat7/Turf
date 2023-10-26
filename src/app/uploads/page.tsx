@@ -51,8 +51,9 @@ const Uploads = () => {
       setProgress(Math.floor(progress.detail));
     });
 
-    upload.on("success", () => {
+    upload.on("success", async () => {
       setIsPreparing(true);
+      console.log("success uploading, updating upload status");
     });
   };
   return (
