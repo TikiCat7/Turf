@@ -1,6 +1,7 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { OrganizationSwitcher } from "@clerk/nextjs";
 import * as UpChunk from "@mux/upchunk";
 import { useRef, useState } from "react";
 
@@ -13,18 +14,18 @@ const Uploads = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const createUpload = async () => {
-    console.log("inside create upload");
     try {
-      return fetch("/api/upload", {
-        method: "POST",
-      })
-        .then((res) => res.json())
-        .then(({ id, url }) => {
-          setUploadId(id);
-          return url;
-        });
+      console.log("inside create upload");
+      let res = await fetch("/api/upload", { method: "POST" });
+      if (!res.ok) {
+        console.log(await res.json());
+        throw new Error("Error creating upload");
+      }
+      const { id, url } = await res.json();
+      setUploadId(id);
+      return url;
     } catch (e) {
-      console.error("Error in createUpload", e);
+      console.error("Error in createUpload");
       setErrorMessage("Error creating upload");
     }
   };
@@ -34,7 +35,7 @@ const Uploads = () => {
 
     const files = inputRef.current?.files;
     if (!files) {
-      setErrorMessage("An unexpected issue occurred");
+      setErrorMessage("No file selected.");
       return;
     }
 
@@ -58,8 +59,9 @@ const Uploads = () => {
   };
   return (
     <div>
+      <OrganizationSwitcher />
       <p className="text-2xl font-bold mb-2">Upload Video</p>
-      {errorMessage && <p>{errorMessage}</p>}
+      {errorMessage && <p className="text-primary">{errorMessage}</p>}
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor="picture">Upload Video</Label>
         <Input ref={inputRef} id="video" type="file" onChange={startUpload} />
