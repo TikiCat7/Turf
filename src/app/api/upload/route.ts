@@ -8,6 +8,8 @@ const { Video } = new Mux();
 
 export async function POST(req: Request, res: Response): Promise<Response> {
   const { userId, orgId } = auth();
+  console.log("inside api/upload");
+  console.log("userId", userId);
   if (!userId) {
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
@@ -19,7 +21,7 @@ export async function POST(req: Request, res: Response): Promise<Response> {
       return Response.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Should users be able to upload footagew without selecting a team?
+    // Should users be able to upload footage without selecting a team?
     console.log("orgId on clerk side", orgId);
     if (!orgId) {
       console.log("user doesn't have any organization associated!");

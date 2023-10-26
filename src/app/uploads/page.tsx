@@ -1,9 +1,11 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { OrganizationSwitcher } from "@clerk/nextjs";
+import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import * as UpChunk from "@mux/upchunk";
 import { useRef, useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import { redirect } from "next/dist/client/components/redirect";
 
 const Uploads = () => {
   const [isUploading, setIsUploading] = useState(false);
@@ -12,6 +14,11 @@ const Uploads = () => {
   const [progress, setProgress] = useState<Number | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const user = useUser();
+  if (!user) {
+    redirect("/sign-in");
+  }
 
   const createUpload = async () => {
     try {
@@ -59,6 +66,7 @@ const Uploads = () => {
   };
   return (
     <div>
+      <UserButton afterSignOutUrl="/" />
       <OrganizationSwitcher />
       <p className="text-2xl font-bold mb-2">Upload Video</p>
       {errorMessage && <p className="text-primary">{errorMessage}</p>}

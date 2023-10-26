@@ -1,13 +1,15 @@
 import Player from "@/components/mux-player";
-import { headers } from "next/headers";
+import { UserButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
+import Mux from "@mux/mux-node";
+
+const { Video } = new Mux();
 
 async function getAsset(videoId: string) {
+  const user = await currentUser();
+  console.log("user exists: ", !!user);
   try {
-    const res = await fetch(
-      `${process.env.API_BASE_URL}/api/assets/${videoId}`,
-      { method: "GET", headers: headers(), cache: "no-cache" },
-    );
-    return res.json();
+    return await Video.Assets.get(videoId);
   } catch (e) {
     console.error("Error in getUploadStatus", e);
   }
@@ -17,8 +19,9 @@ export default async function Assets({ params }: { params: { id: string } }) {
 
   return (
     <div>
-      <div>Asset Playback ID: {asset.playback_id}</div>
-      <Player playbackId={asset.playback_id} />
+      <UserButton afterSignOutUrl="/" />
+      <div>Asset Playback ID: {asset?.playback_ids![0].id}</div>
+      <Player playbackId={asset?.playback_ids![0].id ?? ""} />
     </div>
   );
 }

@@ -1,14 +1,11 @@
-import { Upload } from "@mux/mux-node";
-import { headers } from "next/headers";
-import { Suspense } from "react";
+import { UserButton } from "@clerk/nextjs";
+import Mux, { Upload } from "@mux/mux-node";
 
-async function getUploadStatus(videoId: string) {
+const { Video } = new Mux();
+
+async function getUploadStatus(uploadId: string) {
   try {
-    const res = await fetch(
-      `${process.env.API_BASE_URL}/api/upload/${videoId}`,
-      { method: "GET", headers: headers(), cache: "no-cache" },
-    );
-    return res.json();
+    return await Video.Uploads.get(uploadId);
   } catch (e) {
     console.error("Error in getUploadStatus", e);
   }
@@ -18,15 +15,20 @@ export default async function Upload({ params }: { params: { id: string } }) {
   const upload = await getUploadStatus(params.id);
   console.log("upload: ", upload);
   return (
-    <Suspense fallback={<p>Loading...</p>}>
-      <div className="flex flex-col">
-        <span className="flex space-x-2">
-          <p>Video Upload:</p> <pre>{params.id}</pre>
-        </span>
-        <span className="flex space-x-2">
-          <p>Video status:</p> <pre>{upload.status}</pre>
-        </span>
-      </div>
-    </Suspense>
+    <div className="flex flex-col">
+      <UserButton afterSignOutUrl="/" />
+      {upload ? (
+        <>
+          <span className="flex space-x-2">
+            <p>Video Upload:</p> <pre>{params.id}</pre>
+          </span>
+          <span className="flex space-x-2">
+            <p>Video status:</p> <pre>{upload!.status}</pre>
+          </span>
+        </>
+      ) : (
+        <p>user not found</p>
+      )}
+    </div>
   );
 }

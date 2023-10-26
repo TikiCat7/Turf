@@ -1,19 +1,8 @@
-import {
-  auth,
-  currentUser,
-  useOrganization,
-  clerkClient,
-  useOrganizationList,
-} from "@clerk/nextjs";
+import { auth, clerkClient } from "@clerk/nextjs";
 
 const Organisation = async () => {
-  // const { organization, memberships } = useOrganization({
-  //   invitations: true,
-  //   memberships: true,
-  // });
-  //
-  //
-  const { orgId, userId, organization } = auth();
+  const { orgId } = auth();
+  console.log("orgId: ", orgId);
 
   const users = clerkClient.users;
   const org = clerkClient.organizations;
