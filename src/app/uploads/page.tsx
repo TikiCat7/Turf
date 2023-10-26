@@ -2,7 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
-import * as UpChunk from "@mux/upchunk";
+import { UpChunk } from "@mux/upchunk";
 import { useRef, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/dist/client/components/redirect";
