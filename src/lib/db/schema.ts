@@ -1,21 +1,31 @@
 import {
-  integer,
   pgEnum,
   pgTable,
   real,
   serial,
   text,
   timestamp,
+  uuid,
   varchar,
 } from "drizzle-orm/pg-core";
 
-export const clips = pgTable("clips", {
-  id: serial("id").primaryKey(),
-  clipName: text("clip_name").notNull(),
-  clipUrl: text("clip_url").notNull(),
+export const users = pgTable("users", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  clerkId: text("user_id").notNull(),
+  email: text("email").notNull(),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
+  avatarUrl: text("avatar_url"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  userId: varchar("user_id", { length: 256 }).notNull(),
-  clipKey: text("clip_key").notNull(),
+});
+
+export const teams = pgTable("teams", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  clerkId: text("org_id").notNull(),
+  name: text("name").notNull(),
+  slug: text("slug").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  logo: text("logo"),
 });
 
 export const uploadStatusEnum = pgEnum("uploadStatus", [
@@ -25,7 +35,7 @@ export const uploadStatusEnum = pgEnum("uploadStatus", [
 ]);
 
 export const uploads = pgTable("uploads", {
-  id: serial("id").primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
   uploadId: text("upload_id").notNull(),
   uploadUrl: text("upload_url").notNull(),
   userId: text("user_id").notNull(),
@@ -33,6 +43,7 @@ export const uploads = pgTable("uploads", {
   uploadStatus: uploadStatusEnum("upload_status")
     .notNull()
     .default("preparing"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
 export const videoStatusEnum = pgEnum("videoStatus", [
@@ -42,7 +53,7 @@ export const videoStatusEnum = pgEnum("videoStatus", [
 ]);
 
 export const videos = pgTable("videos", {
-  id: serial("id").primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
   videoName: text("video_name").notNull(),
   videoUrl: text("video_url").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
