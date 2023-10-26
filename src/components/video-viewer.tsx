@@ -47,7 +47,7 @@ const VideoViewer = ({ selectedVideo }: { selectedVideo: null | File }) => {
     const timestamp = trackTimestamp();
     console.log("timestamp: ", timestamp);
     return () => {
-      cancelAnimationFrame(timestamp);
+      cancelAnimationFrame(timestamp!);
     };
   }, []);
 

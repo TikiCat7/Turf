@@ -3,10 +3,7 @@ import Mux from "@mux/mux-node";
 
 const { Video } = new Mux();
 
-export async function GET(
-  req: NextApiRequest,
-  res: NextApiResponse,
-): Promise<Response> {
+export async function GET(req: Request, res: Response): Promise<Response> {
   try {
     const assetList = await Video.Assets.list({ limit: 50 });
     console.log("asset data: ", JSON.stringify(assetList, null, 2));
@@ -15,7 +12,6 @@ export async function GET(
     });
   } catch (e) {
     console.error("Request error", e); // eslint-disable-line no-console
-    res.json({ error: "Error getting asset" });
     return Response.json({ error: e, statusCode: 500 });
   }
 }

@@ -6,7 +6,7 @@ import { teams, users } from "@/lib/db/schema";
 
 const webhookSignatureSecret = process.env.CLERK_WEBHOOK_SIGNATURE_SECRET || "";
 
-export async function verifyClerkWebhookSignature(request: Request) {
+async function verifyClerkWebhookSignature(request: Request) {
   const payloadString = await request.text();
   const headerPayload = headers();
 

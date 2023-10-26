@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { eq } from "drizzle-orm";
 import Mux from "@mux/mux-node";
 import { auth } from "@clerk/nextjs";
@@ -7,10 +6,7 @@ import { teams, uploads, users } from "@/lib/db/schema";
 
 const { Video } = new Mux();
 
-export async function POST(
-  req: NextApiRequest,
-  res: NextApiResponse,
-): Promise<Response> {
+export async function POST(req: Request, res: Response): Promise<Response> {
   const { userId, orgId } = auth();
   if (!userId) {
     return Response.json({ error: "unauthorized" }, { status: 401 });
@@ -78,7 +74,6 @@ export async function POST(
       { status: 200 },
     );
   } catch (e) {
-    res.statusCode = 500;
     console.error("Request error", e); // eslint-disable-line no-console
     return Response.json({ error: e, statusCode: 500 });
   }
