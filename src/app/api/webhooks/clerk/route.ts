@@ -2,7 +2,7 @@ import type { WebhookEvent } from "@clerk/clerk-sdk-node";
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { db } from "@/lib/db";
-import { teams, users } from "@/lib/db/schema";
+import { teams, users, usersOnTeams } from "@/lib/db/schema";
 
 const webhookSignatureSecret = process.env.CLERK_WEBHOOK_SIGNATURE_SECRET || "";
 
@@ -34,7 +34,14 @@ export async function POST(req: Request): Promise<Response> {
     const { type, data } = payload;
 
     switch (type) {
-      // TODO: Store in user table
+      case "organizationMembership.created":
+        console.log("user joined a team!");
+        await db.insert(usersOnTeams).values({
+          userId: data.public_user_data.user_id,
+          teamId: data.organization.id,
+        });
+        break;
+
       case "user.created":
         console.log("user created!", data);
         await db.insert(users).values({

@@ -1,8 +1,9 @@
+import { relations } from "drizzle-orm";
 import {
   pgEnum,
   pgTable,
   real,
-  serial,
+  primaryKey,
   text,
   timestamp,
   uuid,
@@ -11,7 +12,7 @@ import {
 
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
-  clerkId: text("user_id").notNull(),
+  clerkId: text("user_id").notNull().unique(),
   email: text("email").notNull(),
   firstName: text("first_name"),
   lastName: text("last_name"),
@@ -19,14 +20,48 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const usersRelation = relations(users, ({ many }) => ({
+  teams: many(usersOnTeams),
+}));
+
 export const teams = pgTable("teams", {
   id: uuid("id").defaultRandom().primaryKey(),
-  clerkId: text("org_id").notNull(),
+  clerkId: text("org_id").notNull().unique(),
   name: text("name").notNull(),
   slug: text("slug").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   logo: text("logo"),
 });
+
+export const teamsRelation = relations(teams, ({ many }) => ({
+  members: many(usersOnTeams),
+}));
+
+export const usersOnTeams = pgTable(
+  "usersOnTeams",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.clerkId),
+    teamId: text("team_id")
+      .notNull()
+      .references(() => teams.clerkId),
+  },
+  (t) => ({
+    pk: primaryKey(t.userId, t.teamId),
+  }),
+);
+
+export const usersOnTeamsRelations = relations(usersOnTeams, ({ one }) => ({
+  user: one(users, {
+    fields: [usersOnTeams.userId],
+    references: [users.clerkId],
+  }),
+  team: one(teams, {
+    fields: [usersOnTeams.teamId],
+    references: [teams.clerkId],
+  }),
+}));
 
 export const uploadStatusEnum = pgEnum("uploadStatus", [
   "preparing",
