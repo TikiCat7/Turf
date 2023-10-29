@@ -1,21 +1,11 @@
-import { Asset } from "@mux/mux-node";
 import Link from "next/link";
-import { currentUser } from "@clerk/nextjs/server";
-import Mux from "@mux/mux-node";
 import { UserButton } from "@clerk/nextjs";
-
-const { Video } = new Mux();
+import { db } from "@/lib/db";
+import { SelectVideo } from "@/lib/db/schema";
 
 async function getAssets() {
-  const user = await currentUser();
-  console.log("user exists: ", !!user);
-  try {
-    console.log("fetching videos directly cuz fuck API ROUTES");
-    return await Video.Assets.list({ limit: 50 });
-  } catch (e) {
-    console.error("Error in getAssets", e);
-    return null;
-  }
+  console.log("fetching videos directly cuz fuck API ROUTES");
+  return await db.query.videos.findMany();
 }
 
 export default async function Assets() {
@@ -25,22 +15,26 @@ export default async function Assets() {
       <UserButton afterSignOutUrl="/" />
       <div className="text-4xl font-bold mb-4">All Assets</div>
       <div className="flex flex-col space-y-4">
-        {allAssets &&
-          allAssets.map((asset: Asset) => (
+        {allAssets.length > 0 ? (
+          allAssets.map((asset: SelectVideo) => (
             <Link
-              key={asset.id}
-              href={`assets/${asset.id}`}
+              key={asset.assetId}
+              href={`assets/${asset.assetId}`}
               className="flex items-center space-x-2"
             >
               <img
-                src={`https://image.mux.com/${
-                  asset.playback_ids![0].id
-                }/thumbnail.jpg?width=128&fit_mode=pad`}
+                src={`https://image.mux.com/${asset.playbackUrl}/thumbnail.jpg?width=128&fit_mode=pad`}
                 className="rounded-md"
               />
-              <pre>id: {asset.id}</pre>
+              <pre>id: {asset.assetId}</pre>
             </Link>
-          ))}
+          ))
+        ) : (
+          <>
+            <p>0 videos found</p>
+            <Link href="/uploads">Upload a video</Link>
+          </>
+        )}
       </div>
     </div>
   );
