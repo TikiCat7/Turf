@@ -39,24 +39,24 @@ export async function POST(req: Request): Promise<Response> {
   console.log("webhook type: ", type);
   // upload completed but video playback is not ready
   if (type === "video.upload.asset_created") {
+    // TODO: need more granular error handling here,
+    // TODO: what happens if updating the upload succeeds, but saving the video record fails?
     try {
-      // TODO: Find the upload record in DB and update the status
       const upload = await db
         .update(uploads)
         .set({ uploadStatus: "ready" })
         .where(eq(uploads.uploadId, object.id))
         .returning({
           userId: uploads.userId,
-          // TODO: grab other metadata like team id, video name etc.
+          teamId: uploads.teamId,
         });
 
-      // TODO: Create a video record in DB
       await db.insert(videos).values({
         uploadId: object.id,
         videoUrl: "",
         videoName: "test",
         videoStatus: "preparing",
-        teamId: upload[0].userId,
+        teamId: upload[0].teamId,
         assetId: data.asset_id,
         userId: upload[0].userId,
       });
@@ -83,7 +83,7 @@ export async function POST(req: Request): Promise<Response> {
       // TODO: Send relevant notifications to user that video is ready
     } catch (e) {
       console.log(
-        "something went wrong in the video.upload.asset_created callback",
+        "something went wrong in the video.upload.asset_ready callback",
         e,
       );
       return Response.json({ message: e }, { status: 400 });
