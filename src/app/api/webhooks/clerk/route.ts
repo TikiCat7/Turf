@@ -28,10 +28,10 @@ async function verifyClerkWebhookSignature(request: Request) {
 }
 
 export async function POST(req: Request): Promise<Response> {
-  console.log("inside the webhook callback /user");
   try {
     const payload = await verifyClerkWebhookSignature(req);
     const { type, data } = payload;
+    console.log("webhook type: ", type);
 
     switch (type) {
       case "organizationMembership.created":

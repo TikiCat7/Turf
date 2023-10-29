@@ -21,7 +21,6 @@ const verifyWebhookSignature = (rawBody: string | Buffer, req: Request) => {
 };
 
 export async function POST(req: Request): Promise<Response> {
-  console.log("inside the webhook callback");
   const rawBody = await req.text();
   try {
     verifyWebhookSignature(rawBody, req);
