@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 import {
   pgEnum,
   pgTable,
@@ -22,6 +22,8 @@ export const users = pgTable("users", {
 
 export const usersRelation = relations(users, ({ many }) => ({
   teams: many(usersOnTeams),
+  videos: many(videos),
+  uploads: many(uploads),
 }));
 
 export const teams = pgTable("teams", {
@@ -35,6 +37,7 @@ export const teams = pgTable("teams", {
 
 export const teamsRelation = relations(teams, ({ many }) => ({
   members: many(usersOnTeams),
+  videos: many(videos),
 }));
 
 export const usersOnTeams = pgTable(
@@ -73,13 +76,24 @@ export const uploads = pgTable("uploads", {
   id: uuid("id").defaultRandom().primaryKey(),
   uploadId: text("upload_id").notNull(),
   uploadUrl: text("upload_url").notNull(),
-  userId: text("user_id").notNull(),
-  teamId: text("team_id").notNull(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id),
+  teamId: uuid("team_id")
+    .notNull()
+    .references(() => teams.id),
   uploadStatus: uploadStatusEnum("upload_status")
     .notNull()
     .default("preparing"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
+
+export const uploadsRelations = relations(uploads, ({ one }) => ({
+  uploader: one(users, {
+    references: [users.id],
+    fields: [uploads.userId],
+  }),
+}));
 
 export const videoStatusEnum = pgEnum("videoStatus", [
   "preparing",
@@ -92,8 +106,12 @@ export const videos = pgTable("videos", {
   videoName: text("video_name").notNull(),
   videoUrl: text("video_url").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  userId: varchar("user_id", { length: 256 }).notNull(),
-  teamId: varchar("team_id", { length: 256 }).notNull(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id),
+  teamId: uuid("team_id")
+    .notNull()
+    .references(() => teams.id),
   duration: real("duration"),
   quality: text("quality"),
   dimensions: text("dimension"),
@@ -106,3 +124,20 @@ export const videos = pgTable("videos", {
   // cuepointsId: varchar("cuepoints_id", { length: 256 }).notNull(),
   // commentsId: varchar("comments_id", { length: 256 }).notNull(),
 });
+
+export type SelectVideo = InferSelectModel<typeof videos>;
+
+export const videoRelations = relations(videos, ({ one }) => ({
+  uploader: one(users, {
+    fields: [videos.userId],
+    references: [users.id],
+  }),
+  team: one(teams, {
+    fields: [videos.teamId],
+    references: [teams.id],
+  }),
+  upload: one(uploads, {
+    fields: [videos.uploadId],
+    references: [uploads.uploadId],
+  }),
+}));
