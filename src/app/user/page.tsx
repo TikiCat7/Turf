@@ -4,7 +4,7 @@ import { currentUser } from '@clerk/nextjs'
 import { eq, sql } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 
-export async function getUser() {
+async function getUser() {
   const user = await currentUser()
   if (!user) {
     redirect('/sign-in')
