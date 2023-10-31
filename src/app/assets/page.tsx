@@ -1,15 +1,16 @@
-import Link from "next/link";
-import { UserButton } from "@clerk/nextjs";
-import { db } from "@/lib/db";
-import { SelectVideo } from "@/lib/db/schema";
+import Image from 'next/image'
+import Link from 'next/link'
+import { UserButton } from '@clerk/nextjs'
+import { db } from '@/lib/db'
+import { SelectVideo } from '@/lib/db/schema'
 
 async function getAssets() {
-  console.log("fetching videos directly cuz fuck API ROUTES");
-  return await db.query.videos.findMany();
+  console.log('fetching videos directly cuz fuck API ROUTES')
+  return await db.query.videos.findMany()
 }
 
 export default async function Assets() {
-  const allAssets = await getAssets();
+  const allAssets = await getAssets()
   return (
     <div>
       <UserButton afterSignOutUrl="/" />
@@ -22,7 +23,8 @@ export default async function Assets() {
               href={`assets/${asset.assetId}`}
               className="flex items-center space-x-2"
             >
-              <img
+              <Image
+                alt="video_thumbnail"
                 src={`https://image.mux.com/${asset.playbackUrl}/thumbnail.jpg?width=128&fit_mode=pad`}
                 className="rounded-md"
               />
@@ -37,5 +39,5 @@ export default async function Assets() {
         )}
       </div>
     </div>
-  );
+  )
 }

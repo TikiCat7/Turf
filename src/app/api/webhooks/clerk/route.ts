@@ -1,75 +1,75 @@
-import type { WebhookEvent } from "@clerk/clerk-sdk-node";
-import { Webhook } from "svix";
-import { headers } from "next/headers";
-import { db } from "@/lib/db";
-import { teams, users, usersOnTeams } from "@/lib/db/schema";
+import type { WebhookEvent } from '@clerk/clerk-sdk-node'
+import { Webhook } from 'svix'
+import { headers } from 'next/headers'
+import { db } from '@/lib/db'
+import { teams, users, usersOnTeams } from '@/lib/db/schema'
 
-const webhookSignatureSecret = process.env.CLERK_WEBHOOK_SIGNATURE_SECRET || "";
+const webhookSignatureSecret = process.env.CLERK_WEBHOOK_SIGNATURE_SECRET || ''
 
 async function verifyClerkWebhookSignature(request: Request) {
-  const payloadString = await request.text();
-  const headerPayload = headers();
+  const payloadString = await request.text()
+  const headerPayload = headers()
 
-  const svix_id = headerPayload.get("svix-id");
-  const svix_timestamp = headerPayload.get("svix-timestamp");
-  const svix_signature = headerPayload.get("svix-signature");
+  const svix_id = headerPayload.get('svix-id')
+  const svix_timestamp = headerPayload.get('svix-timestamp')
+  const svix_signature = headerPayload.get('svix-signature')
 
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    throw new Error("Error occured -- no svix headers");
+    throw new Error('Error occured -- no svix headers')
   }
 
   const svixHeaders = {
-    "svix-id": svix_id,
-    "svix-timestamp": svix_timestamp,
-    "svix-signature": svix_signature,
-  };
-  const wh = new Webhook(webhookSignatureSecret);
-  return wh.verify(payloadString, svixHeaders) as WebhookEvent;
+    'svix-id': svix_id,
+    'svix-timestamp': svix_timestamp,
+    'svix-signature': svix_signature,
+  }
+  const wh = new Webhook(webhookSignatureSecret)
+  return wh.verify(payloadString, svixHeaders) as WebhookEvent
 }
 
 export async function POST(req: Request): Promise<Response> {
   try {
-    const payload = await verifyClerkWebhookSignature(req);
-    const { type, data } = payload;
-    console.log("webhook type: ", type);
+    const payload = await verifyClerkWebhookSignature(req)
+    const { type, data } = payload
+    console.log('webhook type: ', type)
 
     switch (type) {
-      case "organizationMembership.created":
-        console.log("user joined a team!");
+      case 'organizationMembership.created':
+        console.log('user joined a team!')
         await db.insert(usersOnTeams).values({
           userId: data.public_user_data.user_id,
           teamId: data.organization.id,
-        });
-        break;
+        })
+        break
 
-      case "user.created":
-        console.log("user created!", data);
+      case 'user.created':
+        console.log('user created!', data)
         await db.insert(users).values({
           clerkId: data.id,
           email: data.email_addresses[0].email_address,
           firstName: data.first_name,
           lastName: data.last_name,
           avatarUrl: data.image_url,
-        });
-        break;
-      case "user.updated":
-        console.log("user updated!", data);
-        break;
-      case "user.deleted":
-        console.log("user deleted!", data);
-        break;
-      case "organization.created":
-        console.log("organization created!", data);
+        })
+        break
+      case 'user.updated':
+        console.log('user updated!', data)
+        break
+      case 'user.deleted':
+        console.log('user deleted!', data)
+        break
+      case 'organization.created':
+        console.log('organization created!', data)
         await db.insert(teams).values({
           clerkId: data.id,
           name: data.name,
           slug: data.slug!,
-        });
-        break;
+        })
+        break
     }
   } catch (e) {
-    console.error("Could not verify signature.", e);
-    return Response.json({ message: e }, { status: 400 });
+    console.error('Could not verify signature.', e)
+    return Response.json({ message: e }, { status: 400 })
   }
-  return Response.json({ message: "ok, handled it" }, { status: 200 });
+  return Response.json({ message: 'ok, handled it' }, { status: 200 })
 }

@@ -1,14 +1,14 @@
-import { ModeToggle } from "@/components/theme-toggle";
-import VideoSection from "@/components/video-section";
-import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs";
+import { ModeToggle } from '@/components/theme-toggle'
+import VideoSection from '@/components/video-section'
+import { OrganizationSwitcher, UserButton } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs'
 
 export default async function Home() {
-  const { userId, orgId, orgRole } = auth();
+  const { userId, orgId, orgRole } = auth()
 
-  console.log("orgId: ", orgId);
-  console.log("orgRole: ", orgRole);
-  console.log("--- clerk userID ---", userId);
+  console.log('orgId: ', orgId)
+  console.log('orgRole: ', orgRole)
+  console.log('--- clerk userID ---', userId)
 
   return (
     <main className="flex min-h-screen flex-col items-center space-y-8 p-24">
@@ -20,5 +20,5 @@ export default async function Home() {
       </div>
       <VideoSection />
     </main>
-  );
+  )
 }

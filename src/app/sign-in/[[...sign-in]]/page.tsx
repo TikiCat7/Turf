@@ -1,5 +1,5 @@
-import { SignIn } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
+import { SignIn } from '@clerk/nextjs'
+import { dark } from '@clerk/themes'
 
 export default function Page() {
   return (
@@ -9,10 +9,10 @@ export default function Page() {
           baseTheme: dark,
           elements: {
             formButtonPrimary:
-              "bg-primary hover:bg-primary/50 text-sm normal-case",
+              'bg-primary hover:bg-primary/50 text-sm normal-case',
           },
         }}
       />
     </div>
-  );
+  )
 }

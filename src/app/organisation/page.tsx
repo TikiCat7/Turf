@@ -1,13 +1,13 @@
-import { auth, clerkClient } from "@clerk/nextjs";
+import { auth, clerkClient } from '@clerk/nextjs'
 
 const Organisation = async () => {
-  const { orgId } = auth();
-  console.log("orgId: ", orgId);
+  const { orgId } = auth()
+  console.log('orgId: ', orgId)
 
-  const users = clerkClient.users;
-  const org = clerkClient.organizations;
-  const userCount = await users.getCount();
-  const orgName = await org.getOrganization({ organizationId: orgId ?? "" });
+  const users = clerkClient.users
+  const org = clerkClient.organizations
+  const userCount = await users.getCount()
+  const orgName = await org.getOrganization({ organizationId: orgId ?? '' })
   // try {
   //   const invite = await org.createOrganizationInvitation({
   //     organizationId: orgId ?? "",
@@ -21,8 +21,8 @@ const Organisation = async () => {
 
   const invitations =
     await clerkClient.organizations.getOrganizationInvitationList({
-      organizationId: orgId ?? "",
-    });
+      organizationId: orgId ?? '',
+    })
 
   // try {
   //   await clerkClient.organizations.revokeOrganizationInvitation({
@@ -35,8 +35,8 @@ const Organisation = async () => {
   //   console.log(e);
   // }
 
-  const { organization: authOrg } = auth();
-  console.log("authOrg: ", authOrg);
+  const { organization: authOrg } = auth()
+  console.log('authOrg: ', authOrg)
   // console.log("memberships: ", memberships);
   return (
     <div>
@@ -51,7 +51,7 @@ const Organisation = async () => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Organisation;
+export default Organisation

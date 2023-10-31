@@ -1,93 +1,93 @@
-import Mux from "@mux/mux-node";
-import { db } from "@/lib/db";
-import { uploads, videos } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import Mux from '@mux/mux-node'
+import { db } from '@/lib/db'
+import { uploads, videos } from '@/lib/db/schema'
+import { eq } from 'drizzle-orm'
 
-const webhookSignatureSecret = process.env.MUX_WEBHOOK_SIGNATURE_SECRET;
+const webhookSignatureSecret = process.env.MUX_WEBHOOK_SIGNATURE_SECRET
 
 const verifyWebhookSignature = (rawBody: string | Buffer, req: Request) => {
   if (webhookSignatureSecret) {
     Mux.Webhooks.verifyHeader(
       rawBody,
-      req.headers.get("mux-signature") as string,
-      webhookSignatureSecret,
-    );
+      req.headers.get('mux-signature') as string,
+      webhookSignatureSecret
+    )
   } else {
     console.log(
-      "Skipping webhook sig verification because no secret is configured",
-    );
+      'Skipping webhook sig verification because no secret is configured'
+    )
   }
-  return true;
-};
+  return true
+}
 
 export async function POST(req: Request): Promise<Response> {
-  const rawBody = await req.text();
+  const rawBody = await req.text()
   try {
-    verifyWebhookSignature(rawBody, req);
+    verifyWebhookSignature(rawBody, req)
   } catch (e) {
     console.error(
-      "Error verifyWebhookSignature - is the correct signature secret set?",
-      e,
-    );
-    return Response.json({ message: e }, { status: 400 });
+      'Error verifyWebhookSignature - is the correct signature secret set?',
+      e
+    )
+    return Response.json({ message: e }, { status: 400 })
   }
 
-  const jsonBody = JSON.parse(rawBody);
-  const { data, type, object } = jsonBody;
+  const jsonBody = JSON.parse(rawBody)
+  const { data, type, object } = jsonBody
 
-  console.log("webhook type: ", type);
+  console.log('webhook type: ', type)
   // upload completed but video playback is not ready
-  if (type === "video.upload.asset_created") {
+  if (type === 'video.upload.asset_created') {
     // TODO: need more granular error handling here,
     // TODO: what happens if updating the upload succeeds, but saving the video record fails?
     try {
       const upload = await db
         .update(uploads)
-        .set({ uploadStatus: "ready" })
+        .set({ uploadStatus: 'ready' })
         .where(eq(uploads.uploadId, object.id))
         .returning({
           userId: uploads.userId,
           teamId: uploads.teamId,
-        });
+        })
 
       await db.insert(videos).values({
         uploadId: object.id,
-        videoUrl: "",
-        videoName: "test",
-        videoStatus: "preparing",
+        videoUrl: '',
+        videoName: 'test',
+        videoStatus: 'preparing',
         teamId: upload[0].teamId,
         assetId: data.asset_id,
         userId: upload[0].userId,
-      });
+      })
     } catch (e) {
       console.log(
-        "something went wrong in the video.upload.asset_created callback",
-        e,
-      );
-      return Response.json({ message: e }, { status: 400 });
+        'something went wrong in the video.upload.asset_created callback',
+        e
+      )
+      return Response.json({ message: e }, { status: 400 })
     }
     // video playback is now ready
-  } else if (type === "video.asset.ready") {
+  } else if (type === 'video.asset.ready') {
     try {
       await db
         .update(videos)
         // TODO: store more info like duration, resolution, frame rate, aspect ratio
         .set({
-          videoStatus: "ready",
+          videoStatus: 'ready',
           playbackUrl: data.playback_ids[0].id,
           duration: data.duration,
         })
-        .where(eq(videos.assetId, object.id));
+        .where(eq(videos.assetId, object.id))
 
       // TODO: Send relevant notifications to user that video is ready
     } catch (e) {
       console.log(
-        "something went wrong in the video.upload.asset_ready callback",
-        e,
-      );
-      return Response.json({ message: e }, { status: 400 });
+        'something went wrong in the video.upload.asset_ready callback',
+        e
+      )
+      return Response.json({ message: e }, { status: 400 })
     }
   }
 
-  return Response.json({ message: "ok" }, { status: 200 });
+  return Response.json({ message: 'ok' }, { status: 200 })
 }

@@ -1,11 +1,11 @@
-import { authMiddleware } from "@clerk/nextjs";
-import { NextResponse } from "next/server";
+import { authMiddleware } from '@clerk/nextjs'
+import { NextResponse } from 'next/server'
 
 // This example protects all routes including api/trpc routes
 // Please edit this to allow other routes to be public as needed.
 // See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
 export default authMiddleware({
-  publicRoutes: ["/", "/api/webhooks", "/api/webhooks/clerk"],
+  publicRoutes: ['/', '/api/webhooks', '/api/webhooks/clerk'],
   // afterAuth(auth, req, evt) {
   //   if (
   //     auth.userId &&
@@ -16,9 +16,9 @@ export default authMiddleware({
   //     return NextResponse.redirect(orgSelection);
   //   }
   // },
-});
+})
 
 // TODO: Make this a bit more dynamic
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
-};
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+}

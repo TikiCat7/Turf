@@ -1,10 +1,10 @@
-import { OrganizationList, OrganizationSwitcher } from "@clerk/nextjs";
+import { OrganizationList, OrganizationSwitcher } from '@clerk/nextjs'
 
 export default function OrgSelection() {
   return (
     <OrganizationList
-      afterSelectOrganizationUrl={"/"}
-      afterSelectPersonalUrl={"/"}
+      afterSelectOrganizationUrl={'/'}
+      afterSelectPersonalUrl={'/'}
     />
-  );
+  )
 }
