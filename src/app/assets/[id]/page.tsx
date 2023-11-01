@@ -5,6 +5,8 @@ import CuepointList from '@/components/cuepoint-list'
 import VideoPlayer from '@/components/mux-player'
 import { db } from '@/lib/db'
 
+export const dynamic = 'force-dynamic'
+
 async function getAsset(assetId: string) {
   return await db.query.videos.findFirst({
     where: (videos, { eq }) => eq(videos.assetId, assetId),
@@ -33,20 +35,20 @@ export default async function AssetsPage({
   const asset = await getAsset(params.id)
 
   return (
-    <section>
-      <div>
+    <section className="w-full p-8">
+      <div className="w-full flex h-[32px]">
         <UserButton afterSignOutUrl="/" />
-        {asset ? (
-          <>
-            <div>Asset Playback ID: {asset.playbackUrl}</div>
-            <VideoPlayer playbackId={asset.playbackUrl ?? ''} />
-            <AddCuepoint videoId={asset.id} />
-            <CuepointList cuepoints={asset.cuepoints} />
-          </>
-        ) : (
-          <p>Video not found</p>
-        )}
       </div>
+      {asset ? (
+        <>
+          <div>Asset Playback ID: {asset.playbackUrl}</div>
+          <VideoPlayer playbackId={asset.playbackUrl ?? ''} />
+          <AddCuepoint videoId={asset.id} />
+          <CuepointList cuepoints={asset.cuepoints} />
+        </>
+      ) : (
+        <p>Video not found</p>
+      )}
     </section>
   )
 }
