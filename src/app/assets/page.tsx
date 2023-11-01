@@ -1,17 +1,21 @@
 import { UserButton } from '@clerk/nextjs'
+// import { revalidatePath } from 'next/cache'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { db } from '@/lib/db'
 import { SelectVideo } from '@/lib/db/schema'
 
+export const dynamic = 'force-dynamic'
 async function getAssets() {
   console.log('fetching videos directly cuz fuck API ROUTES')
+  // revalidatePath('/')
   return await db.query.videos.findMany()
 }
 
 export default async function Assets() {
   const allAssets = await getAssets()
+  console.log('allAssets: ', allAssets)
   return (
     <div>
       <UserButton afterSignOutUrl="/" />
