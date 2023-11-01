@@ -28,6 +28,8 @@ export default async function Assets() {
                 alt="video_thumbnail"
                 src={`https://image.mux.com/${asset.playbackUrl}/thumbnail.jpg?width=128&fit_mode=pad`}
                 className="rounded-md"
+                width={128}
+                height={128}
               />
               <pre>id: {asset.assetId}</pre>
             </Link>

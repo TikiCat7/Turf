@@ -1,6 +1,8 @@
 import { UserButton } from '@clerk/nextjs'
 
-import Player from '@/components/mux-player'
+import AddCuepoint from '@/components/add-cuepoint'
+import CuepointList from '@/components/cuepoint-list'
+import VideoPlayer from '@/components/mux-player'
 import { db } from '@/lib/db'
 
 async function getAsset(assetId: string) {
@@ -18,32 +20,33 @@ async function getAsset(assetId: string) {
         },
       },
       team: true,
+      cuepoints: true,
     },
   })
 }
 
-async function VideoSection({ videoId }: { videoId: string }) {
-  const asset = await getAsset(videoId)
-  console.log('asset: ', asset)
-  return (
-    <div>
-      <UserButton afterSignOutUrl="/" />
-      {asset ? (
-        <>
-          <div>Asset Playback ID: {asset.playbackUrl}</div>
-          <Player playbackId={asset.playbackUrl ?? ''} />
-        </>
-      ) : (
-        <p>Video not found</p>
-      )}
-    </div>
-  )
-}
+export default async function AssetsPage({
+  params,
+}: {
+  params: { id: string }
+}) {
+  const asset = await getAsset(params.id)
 
-export default async function Assets({ params }: { params: { id: string } }) {
   return (
     <section>
-      <VideoSection videoId={params.id} />
+      <div>
+        <UserButton afterSignOutUrl="/" />
+        {asset ? (
+          <>
+            <div>Asset Playback ID: {asset.playbackUrl}</div>
+            <VideoPlayer playbackId={asset.playbackUrl ?? ''} />
+            <AddCuepoint videoId={asset.id} />
+            <CuepointList cuepoints={asset.cuepoints} />
+          </>
+        ) : (
+          <p>Video not found</p>
+        )}
+      </div>
     </section>
   )
 }
