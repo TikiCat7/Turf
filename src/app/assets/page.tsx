@@ -27,6 +27,7 @@ export default async function Assets() {
               key={asset.assetId}
               href={`assets/${asset.assetId}`}
               className="flex items-center space-x-2"
+              prefetch={false}
             >
               <Image
                 alt="video_thumbnail"
