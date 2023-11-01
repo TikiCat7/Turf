@@ -24,6 +24,7 @@ export const usersRelation = relations(users, ({ many }) => ({
   usersToTeams: many(usersOnTeams),
   videos: many(videos),
   uploads: many(uploads),
+  cuepoints: many(cuepoints),
 }))
 
 export const teams = pgTable('teams', {
@@ -127,7 +128,7 @@ export const videos = pgTable('videos', {
 
 export type SelectVideo = InferSelectModel<typeof videos>
 
-export const videoRelations = relations(videos, ({ one }) => ({
+export const videoRelations = relations(videos, ({ one, many }) => ({
   uploader: one(users, {
     fields: [videos.userId],
     references: [users.id],
@@ -140,4 +141,42 @@ export const videoRelations = relations(videos, ({ one }) => ({
     fields: [videos.uploadId],
     references: [uploads.uploadId],
   }),
+  cuepoints: many(cuepoints),
 }))
+
+export const playCategory = pgEnum('playCategory', [
+  'goal',
+  'shot',
+  'save',
+  'tackle',
+  'pass',
+  'foul',
+  'corner',
+  'penalty',
+])
+
+export const cuepoints = pgTable('cuepoints', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  videoId: uuid('video_id')
+    .notNull()
+    .references(() => videos.id),
+  taggerId: uuid('tagger_id')
+    .notNull()
+    .references(() => users.id),
+  time: real('time').notNull(),
+  description: text('description').default(''),
+  playCategory: playCategory('play_category').notNull(),
+})
+
+export const cuepointsRelations = relations(cuepoints, ({ one }) => ({
+  video: one(videos, {
+    fields: [cuepoints.videoId],
+    references: [videos.id],
+  }),
+  tagger: one(users, {
+    fields: [cuepoints.taggerId],
+    references: [users.id],
+  }),
+}))
+
+export type Cuepoints = InferSelectModel<typeof cuepoints>
