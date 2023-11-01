@@ -1,17 +1,18 @@
 'use client'
+
+import { OrganizationSwitcher, UserButton, useUser } from '@clerk/nextjs'
+import { UpChunk } from '@mux/upchunk'
+import { redirect } from 'next/dist/client/components/redirect'
+import { useRef, useState } from 'react'
+
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { OrganizationSwitcher, UserButton } from '@clerk/nextjs'
-import { UpChunk } from '@mux/upchunk'
-import { useRef, useState } from 'react'
-import { useUser } from '@clerk/nextjs'
-import { redirect } from 'next/dist/client/components/redirect'
 
 const Uploads = () => {
   const [isUploading, setIsUploading] = useState(false)
   const [isPreparing, setIsPreparing] = useState(false)
   const [uploadId, setUploadId] = useState(null)
-  const [progress, setProgress] = useState<Number | null>(null)
+  const [progress, setProgress] = useState<number | null>(null)
   const [errorMessage, setErrorMessage] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -23,7 +24,7 @@ const Uploads = () => {
   const createUpload = async () => {
     try {
       console.log('inside create upload')
-      let res = await fetch('/api/upload', { method: 'POST' })
+      const res = await fetch('/api/upload', { method: 'POST' })
       if (!res.ok) {
         console.log(await res.json())
         throw new Error('Error creating upload')

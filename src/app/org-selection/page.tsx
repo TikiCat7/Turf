@@ -1,4 +1,4 @@
-import { OrganizationList, OrganizationSwitcher } from '@clerk/nextjs'
+import { OrganizationList } from '@clerk/nextjs'
 
 export default function OrgSelection() {
   return (

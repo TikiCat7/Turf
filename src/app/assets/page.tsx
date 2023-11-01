@@ -1,6 +1,7 @@
+import { UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
-import { UserButton } from '@clerk/nextjs'
+
 import { db } from '@/lib/db'
 import { SelectVideo } from '@/lib/db/schema'
 

@@ -1,12 +1,13 @@
-import { eq } from 'drizzle-orm'
-import Mux from '@mux/mux-node'
 import { auth } from '@clerk/nextjs'
+import Mux from '@mux/mux-node'
+import { eq } from 'drizzle-orm'
+
 import { db } from '@/lib/db'
 import { teams, uploads, users } from '@/lib/db/schema'
 
 const { Video } = new Mux()
 
-export async function POST(req: Request, res: Response): Promise<Response> {
+export async function POST(): Promise<Response> {
   const { userId, orgId } = auth()
   console.log('inside api/upload')
   console.log('userId', userId)

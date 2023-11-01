@@ -1,9 +1,11 @@
-import type { Metadata } from 'next'
-import './globals.css'
-import { cn } from '@/lib/utils'
-import { fontSans } from './fontSans'
-import { ThemeProvider } from '@/components/theme-provider'
 import { ClerkProvider } from '@clerk/nextjs'
+import type { Metadata } from 'next'
+
+import './globals.css'
+import { ThemeProvider } from '@/components/theme-provider'
+import { cn } from '@/lib/utils'
+
+import { fontSans } from './fontSans'
 
 export const metadata: Metadata = {
   title: 'Create Next App',

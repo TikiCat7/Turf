@@ -1,8 +1,9 @@
+import { currentUser } from '@clerk/nextjs'
+import { eq } from 'drizzle-orm'
+import { redirect } from 'next/navigation'
+
 import { db } from '@/lib/db'
 import { teams, users, usersOnTeams, videos } from '@/lib/db/schema'
-import { currentUser } from '@clerk/nextjs'
-import { eq, sql } from 'drizzle-orm'
-import { redirect } from 'next/navigation'
 
 async function getUser() {
   const user = await currentUser()

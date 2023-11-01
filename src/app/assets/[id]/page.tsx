@@ -1,6 +1,7 @@
+import { UserButton } from '@clerk/nextjs'
+
 import Player from '@/components/mux-player'
 import { db } from '@/lib/db'
-import { UserButton } from '@clerk/nextjs'
 
 async function getAsset(assetId: string) {
   return await db.query.videos.findFirst({

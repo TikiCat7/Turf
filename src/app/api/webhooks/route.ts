@@ -1,7 +1,8 @@
 import Mux from '@mux/mux-node'
+import { eq } from 'drizzle-orm'
+
 import { db } from '@/lib/db'
 import { uploads, videos } from '@/lib/db/schema'
-import { eq } from 'drizzle-orm'
 
 const webhookSignatureSecret = process.env.MUX_WEBHOOK_SIGNATURE_SECRET
 

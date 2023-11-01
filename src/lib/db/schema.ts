@@ -2,8 +2,8 @@ import { InferSelectModel, relations } from 'drizzle-orm'
 import {
   pgEnum,
   pgTable,
-  real,
   primaryKey,
+  real,
   text,
   timestamp,
   uuid,

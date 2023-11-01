@@ -1,7 +1,7 @@
+import { OrganizationSwitcher, UserButton , auth } from '@clerk/nextjs'
+
 import { ModeToggle } from '@/components/theme-toggle'
 import VideoSection from '@/components/video-section'
-import { OrganizationSwitcher, UserButton } from '@clerk/nextjs'
-import { auth } from '@clerk/nextjs'
 
 export default async function Home() {
   const { userId, orgId, orgRole } = auth()

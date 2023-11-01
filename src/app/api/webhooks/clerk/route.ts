@@ -1,6 +1,7 @@
 import type { WebhookEvent } from '@clerk/clerk-sdk-node'
-import { Webhook } from 'svix'
 import { headers } from 'next/headers'
+import { Webhook } from 'svix'
+
 import { db } from '@/lib/db'
 import { teams, users, usersOnTeams } from '@/lib/db/schema'
 
