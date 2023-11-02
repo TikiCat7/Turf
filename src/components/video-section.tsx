@@ -1,22 +1,30 @@
 'use client'
 
-import { useState } from 'react'
+import type MuxPlayerElement from '@mux/mux-player'
+import { useRef } from 'react'
 
-import VideoUploader from './video-uploader'
-import VideoViewer from './video-viewer'
+import AddCuepoint from '@/components/add-cuepoint'
+import VideoPlayer from '@/components/mux-player'
+import { Cuepoints } from '@/lib/db/schema'
 
-const VideoSection = () => {
-  const [selectedVideo, setSelectedVideo] = useState<null | File>(null)
-
-  const handleVideoSelect = (file: File) => {
-    setSelectedVideo(file)
-  }
+export default function VideoSection({
+  assetId,
+  playbackUrl,
+  cuepoints,
+}: {
+  assetId: string
+  playbackUrl: string
+  cuepoints: Cuepoints[]
+}) {
+  const playerRef = useRef<MuxPlayerElement>(null)
   return (
-    <div className="flex-col w-full space-y-8">
-      <VideoUploader onVideoSelect={handleVideoSelect} />
-      <VideoViewer selectedVideo={selectedVideo} />
+    <div>
+      <VideoPlayer
+        playerRef={playerRef}
+        playbackId={playbackUrl}
+        cuepoints={cuepoints}
+      />
+      <AddCuepoint videoId={assetId} />
     </div>
   )
 }
-
-export default VideoSection

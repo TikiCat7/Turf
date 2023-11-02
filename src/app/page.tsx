@@ -1,7 +1,6 @@
-import { OrganizationSwitcher, UserButton , auth } from '@clerk/nextjs'
+import { OrganizationSwitcher, UserButton, auth } from '@clerk/nextjs'
 
 import { ModeToggle } from '@/components/theme-toggle'
-import VideoSection from '@/components/video-section'
 
 export default async function Home() {
   const { userId, orgId, orgRole } = auth()
@@ -18,7 +17,6 @@ export default async function Home() {
         <ModeToggle />
         <p className="pl-4 font-bold text-2xl">Clip Editor Testing</p>
       </div>
-      <VideoSection />
     </main>
   )
 }
