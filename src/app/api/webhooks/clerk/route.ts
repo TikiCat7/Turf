@@ -1,4 +1,5 @@
 import type { WebhookEvent } from '@clerk/clerk-sdk-node'
+import { eq } from 'drizzle-orm'
 import { headers } from 'next/headers'
 import { Webhook } from 'svix'
 
@@ -58,6 +59,10 @@ export async function POST(req: Request): Promise<Response> {
         break
       case 'user.deleted':
         console.log('user deleted!', data)
+        if (data.deleted) {
+          // @ts-expect-error why is this type optional?
+          await db.delete(users).where(eq(data.id, users.clerkId))
+        }
         break
       case 'organization.created':
         console.log('organization created!', data)
