@@ -34,7 +34,7 @@ export default function AddCuepoint({ videoId }: { videoId: string }) {
         <label htmlFor="playCategory">Category</label>
         <input type="text" id="playCategory" name="playCategory" required />
         <label htmlFor="time">Time</label>
-        <input type="number" id="time" name="time" required />
+        <input type="decimal" id="time" name="time" required />
         <input
           type="text"
           id="videoId"

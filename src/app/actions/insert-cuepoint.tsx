@@ -30,7 +30,7 @@ export async function addCuepoint(_: any, formData: FormData) {
       taggerId: user[0].id,
       playCategory: formData.get('playCategory'),
       description: formData.get('description'),
-      time: parseInt(formData.get('time')?.toString() ?? '0'),
+      time: parseFloat(formData.get('time')?.toString() ?? '0'),
     })
     console.log('adding cuepoint data to db: ', cuepoint)
     await db.insert(cuepoints).values(cuepoint)
