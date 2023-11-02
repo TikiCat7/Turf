@@ -88,7 +88,17 @@ export async function POST(req: Request): Promise<Response> {
       )
       return Response.json({ message: e }, { status: 400 })
     }
+  } else if (type === 'video.asset.deleted') {
+    try {
+      await db.delete(videos).where(eq(data.id, videos.assetId))
+    } catch (e) {
+      console.log('something went wrong in the video.asset.delete callback', e)
+      return Response.json({ message: e }, { status: 400 })
+    }
   }
 
-  return Response.json({ message: 'ok' }, { status: 200 })
+  return Response.json(
+    { message: 'webhook handled successfully' },
+    { status: 200 }
+  )
 }
