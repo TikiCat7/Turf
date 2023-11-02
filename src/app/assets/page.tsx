@@ -1,15 +1,29 @@
-import { UserButton } from '@clerk/nextjs'
+import { UserButton, auth } from '@clerk/nextjs'
+import { eq } from 'drizzle-orm'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { db } from '@/lib/db'
-import { SelectVideo } from '@/lib/db/schema'
+import { SelectVideo, users, videos } from '@/lib/db/schema'
 
 export const dynamic = 'force-dynamic'
 
 async function getAssets() {
-  console.log('fetching videos directly cuz fuck API ROUTES')
-  return await db.query.videos.findMany()
+  // TODO: DRY
+  const clerkUser = auth()
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.clerkId, clerkUser.userId!))
+
+  if (!user || !user[0]) {
+    console.log('corresponding user not found!')
+    throw new Error('corresponding user not found!')
+  }
+
+  return await db.query.videos.findMany({
+    where: eq(videos.userId, user[0].id),
+  })
 }
 
 export default async function Assets() {
@@ -20,7 +34,7 @@ export default async function Assets() {
       <div className="h-8">
         <UserButton afterSignOutUrl="/" />
       </div>
-      <div className="text-4xl font-bold mb-4">All Assets</div>
+      <div className="text-4xl font-bold mb-4">My Uploads</div>
       <div className="flex flex-col">
         {allAssets.length > 0 ? (
           allAssets.map((asset: SelectVideo) => (
