@@ -40,7 +40,7 @@ export async function addCuepoint(_: any, formData: FormData) {
       message: `Added cuepoint type: ${cuepoint.playCategory} at ${cuepoint.time} seconds.`,
     }
   } catch (e) {
-    console.log('here!', e)
+    console.log('Something went wrong deleting a cuepoint!', e)
     return { message: 'Failed to add cuepoint' }
   }
 }
