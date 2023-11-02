@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { db } from '@/lib/db'
-import { SelectVideo, users, videos } from '@/lib/db/schema'
+import { SelectVideo, users } from '@/lib/db/schema'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,7 +22,7 @@ async function getAssets() {
   }
 
   return await db.query.videos.findMany({
-    where: eq(videos.userId, user[0].id),
+    where: (videos, { eq }) => eq(videos.userId, user[0].id),
   })
 }
 
