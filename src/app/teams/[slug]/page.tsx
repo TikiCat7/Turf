@@ -1,4 +1,9 @@
+import { auth } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
+
 import { db } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 
 async function getTeamData(slug: string) {
   const team = await db.query.teams.findFirst({
@@ -17,6 +22,11 @@ async function getTeamData(slug: string) {
   return { ...team, memberCount }
 }
 export default async function Assets({ params }: { params: { slug: string } }) {
+  const { orgSlug } = auth()
+  if (orgSlug !== params.slug) {
+    redirect('/teams')
+  }
+
   const { memberCount, videos, usersToTeams, name, createdAt } =
     await getTeamData(params.slug)
   return (

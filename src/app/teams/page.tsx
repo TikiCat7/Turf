@@ -1,5 +1,7 @@
 import { db } from '@/lib/db'
 
+export const dynamic = 'force-dynamic'
+
 async function getTeams() {
   return db.query.teams.findMany({})
 }
