@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 
 import { db } from '@/lib/db'
 
+export const dynamic = 'force-dynamic'
+
 async function getTeam() {
   const { orgSlug } = auth()
   if (!orgSlug) {
@@ -25,7 +27,7 @@ export default async function Team() {
   const team = await getTeam()
   return (
     <div className="flex-col">
-      <OrganizationSwitcher />
+      <OrganizationSwitcher afterCreateOrganizationUrl={'/team'} />
       <h1>You belong to team {team?.slug}</h1>
       <p>Videos</p>
       <pre>{JSON.stringify(team?.videos, null, 2)}</pre>

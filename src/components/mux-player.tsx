@@ -5,51 +5,23 @@ import MuxPlayer from '@mux/mux-player-react'
 import { useState } from 'react'
 
 import DeleteCuepoint from '@/components/delete-cuepoint'
-import { Cuepoints } from '@/lib/db/schema'
+import { MuxCuePointData } from '@/components/video-section'
 
-interface CuePointData {
-  time: number
-  value: {
-    id: string
-    description: string
-    playCategory: string
-    videoId: string
-    taggerId: string
-  }
-}
-
-const formateCuepoints = (cuepoints: Cuepoints[]) => {
-  if (!cuepoints) {
-    return []
-  }
-  return cuepoints.map((cuepoint) => {
-    const { time, description, playCategory, videoId, taggerId, id } = cuepoint
-    return {
-      time,
-      value: {
-        id,
-        description,
-        playCategory,
-        videoId,
-        taggerId,
-      },
-    }
-  })
-}
+export const dynamic = 'force-dynamic'
 
 export default function VideoPlayer({
   playbackId,
-  cuepoints,
+  muxCuepoints,
   playerRef,
 }: {
   playbackId: string
-  cuepoints: Cuepoints[]
+  muxCuepoints: MuxCuePointData[]
   playerRef: React.RefObject<MuxPlayerElement>
 }) {
-  const muxCuepoints = formateCuepoints(cuepoints)
   const [activeCuePoint, setActiveCuePoint] = useState<
-    CuePointData | undefined
+    MuxCuePointData | undefined
   >()
+
   return (
     <>
       <MuxPlayer
@@ -71,35 +43,35 @@ export default function VideoPlayer({
         onLoadedMetadata={({ target }) => {
           const playerEl = target as MuxPlayerElement
           playerEl.addCuePoints(muxCuepoints)
+          console.log(playerEl.cuePoints)
         }}
-        onCuePointChange={({ detail }: { detail: CuePointData }) => {
+        onCuePointChange={({ detail }: { detail: MuxCuePointData }) => {
+          console.log('cue point was changed!')
+          console.log('detail: ', detail)
           setActiveCuePoint(detail)
         }}
       />
-      <div>
-        {muxCuepoints.map((cuepoint) => (
-          <>
-            <div
-              key={cuepoint.value.id}
-              className={`${
-                cuepoint.time === activeCuePoint?.time && 'bg-red-500'
-              } cursor-pointer`}
-              onClick={() => {
-                if (playerRef.current) {
-                  playerRef.current.currentTime = cuepoint.time
-                  if (playerRef.current.paused) playerRef.current.play()
-                }
-              }}
-            >
-              <p>ID: {cuepoint?.value.id}</p>
-              <p>Time: {cuepoint?.time}</p>
-              <p>Description: {cuepoint?.value.description}</p>
-              <p>Category: {cuepoint?.value.playCategory}</p>
-            </div>
-            <DeleteCuepoint id={cuepoint.value.id} />
-          </>
-        ))}
-      </div>
+      {muxCuepoints.map((cuepoint) => (
+        <div key={cuepoint.value.id}>
+          <div
+            className={`${
+              cuepoint.time === activeCuePoint?.time && 'bg-red-500'
+            } cursor-pointer`}
+            onClick={() => {
+              if (playerRef.current) {
+                playerRef.current.currentTime = cuepoint.time
+                if (playerRef.current.paused) playerRef.current.play()
+              }
+            }}
+          >
+            <p>ID: {cuepoint?.value.id}</p>
+            <p>Time: {cuepoint?.time}</p>
+            <p>Description: {cuepoint?.value.description}</p>
+            <p>Category: {cuepoint?.value.playCategory}</p>
+          </div>
+          <DeleteCuepoint id={cuepoint.value.id} />
+        </div>
+      ))}
     </>
   )
 }

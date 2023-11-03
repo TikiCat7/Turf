@@ -1,5 +1,7 @@
 'use client'
 
+import type MuxPlayerElement from '@mux/mux-player'
+import { useEffect } from 'react'
 import {
   // @ts-expect-error help
   experimental_useFormState as useFormState,
@@ -12,6 +14,8 @@ import { Button } from '@/components/ui/button'
 
 const initialState = {
   message: null,
+  cuepoint: null,
+  success: null,
 }
 
 function SubmitButton() {
@@ -24,8 +28,35 @@ function SubmitButton() {
   )
 }
 
-export default function AddCuepoint({ videoId }: { videoId: string }) {
+export default function AddCuepoint({
+  videoId,
+  playerRef,
+}: {
+  videoId: string
+  playerRef: React.RefObject<MuxPlayerElement>
+}) {
   const [state, formAction] = useFormState(addCuepoint, initialState)
+
+  // TODO: Handle toast logic here
+  useEffect(() => {
+    if (state.success) {
+      const { time, description, playCategory, videoId, taggerId, id } =
+        state.cuepoint
+      const muxCuepoint = {
+        time,
+        value: {
+          id,
+          description,
+          playCategory,
+          videoId,
+          taggerId,
+        },
+      }
+      // add new mux cuepoint to player
+      playerRef.current?.addCuePoints([muxCuepoint])
+    }
+  }, [state])
+
   return (
     <form className="py-4" action={formAction}>
       <div className="flex flex-col space-y-2 max-w-md">
