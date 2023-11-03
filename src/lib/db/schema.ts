@@ -159,10 +159,10 @@ export const cuepoints = pgTable('cuepoints', {
   id: uuid('id').defaultRandom().primaryKey(),
   videoId: uuid('video_id')
     .notNull()
-    .references(() => videos.id),
+    .references(() => videos.id, { onDelete: 'cascade' }),
   taggerId: uuid('tagger_id')
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: 'cascade' }),
   time: real('time').notNull(),
   description: text('description').default(''),
   playCategory: playCategory('play_category').notNull(),
