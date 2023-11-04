@@ -41,6 +41,8 @@ export const teamsRelation = relations(teams, ({ many }) => ({
   videos: many(videos),
 }))
 
+export type SelectTeam = InferSelectModel<typeof teams>
+
 export const usersOnTeams = pgTable(
   'usersOnTeams',
   {

@@ -28,6 +28,7 @@ export default function VideoPlayer({
         ref={playerRef}
         loop={true}
         autoPlay={true}
+        muted={true}
         className="aspect-[16/9]"
         streamType="on-demand"
         playbackId={playbackId}
@@ -43,11 +44,8 @@ export default function VideoPlayer({
         onLoadedMetadata={({ target }) => {
           const playerEl = target as MuxPlayerElement
           playerEl.addCuePoints(muxCuepoints)
-          console.log(playerEl.cuePoints)
         }}
         onCuePointChange={({ detail }: { detail: MuxCuePointData }) => {
-          console.log('cue point was changed!')
-          console.log('detail: ', detail)
           setActiveCuePoint(detail)
         }}
       />

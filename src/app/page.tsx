@@ -1,22 +1,19 @@
-import { OrganizationSwitcher, UserButton, auth } from '@clerk/nextjs'
-
-import { ModeToggle } from '@/components/theme-toggle'
+import { OrganizationSwitcher, currentUser } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
 
 export default async function Home() {
-  const { userId, orgId, orgRole } = auth()
+  const user = await currentUser()
 
-  console.log('orgId: ', orgId)
-  console.log('orgRole: ', orgRole)
-  console.log('--- clerk userID ---', userId)
+  if (!user) {
+    return redirect('/sign-in')
+  }
 
   return (
-    <main className="flex min-h-screen flex-col items-center space-y-8 p-24">
-      <UserButton afterSignOutUrl="/" />
-      <OrganizationSwitcher />
-      <div className="z-10 max-w-5xl w-full items-center text-sm flex">
-        <ModeToggle />
-        <p className="pl-4 font-bold text-2xl">Clip Editor Testing</p>
+    <div className="max-w-5xl w-full items-center text-sm flex h-full flex-col">
+      <p className="pl-4 font-bold text-2xl">Main page</p>
+      <div>
+        <OrganizationSwitcher />
       </div>
-    </main>
+    </div>
   )
 }
