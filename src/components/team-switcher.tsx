@@ -124,7 +124,7 @@ export default function TeamSwitcher({ className, teams }: TeamSwitcherProps) {
                       imageUrl: user.user?.imageUrl ?? '',
                     })
                     setOpen(false)
-                    setActive({ organization: null })
+                    setActive!({ organization: null })
                   }}
                 >
                   <Avatar className="mr-2 h-5 w-5">
@@ -159,7 +159,7 @@ export default function TeamSwitcher({ className, teams }: TeamSwitcherProps) {
                         imageUrl: team.imageUrl ?? '',
                       })
                       setOpen(false)
-                      setActive({ organization: team.id })
+                      setActive!({ organization: team.id })
                     }}
                   >
                     <Avatar className="mr-2 h-5 w-5">
