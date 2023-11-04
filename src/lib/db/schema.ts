@@ -27,6 +27,8 @@ export const usersRelation = relations(users, ({ many }) => ({
   cuepoints: many(cuepoints),
 }))
 
+export type SelectUsers = InferSelectModel<typeof users>
+
 export const teams = pgTable('teams', {
   id: uuid('id').defaultRandom().primaryKey(),
   clerkId: text('org_id').notNull().unique(),

@@ -16,6 +16,15 @@ export function MainNav({
       {...props}
     >
       <Link
+        href="/team"
+        className={cn(
+          pathname === '/team' ? 'text-primary' : 'text-muted-foreground',
+          'text-sm font-medium transition-colors hover:text-primary'
+        )}
+      >
+        Team
+      </Link>
+      <Link
         href="/uploads"
         className={cn(
           pathname === '/uploads' ? 'text-primary' : 'text-muted-foreground',
@@ -23,15 +32,6 @@ export function MainNav({
         )}
       >
         Upload
-      </Link>
-      <Link
-        href="/teams"
-        className={cn(
-          pathname === '/teams' ? 'text-primary' : 'text-muted-foreground',
-          'text-sm font-medium transition-colors hover:text-primary'
-        )}
-      >
-        Team
       </Link>
       <Link
         href="/assets"

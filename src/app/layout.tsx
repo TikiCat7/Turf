@@ -27,7 +27,7 @@ export default async function RootLayout({
       <html lang="en">
         <body
           className={cn(
-            'min-h-screen bg-background font-sans antialiased flex items-center justify-center',
+            'min-h-screen bg-background font-sans antialiased flex items-center justify-center w-full',
             fontSans.variable
           )}
         >
@@ -41,7 +41,7 @@ export default async function RootLayout({
               {user && (
                 <div className="hidden flex-col md:flex w-full">
                   <div className="border-b">
-                    <div className="flex h-16 items-center px-4">
+                    <div className="flex h-16 items-center px-[10%]">
                       <TeamSelection />
                       <MainNav className="mx-6" />
                       <div className="ml-auto flex items-center space-x-4">

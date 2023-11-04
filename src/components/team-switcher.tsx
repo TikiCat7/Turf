@@ -206,14 +206,14 @@ export default function TeamSwitcher({ className, teams }: TeamSwitcherProps) {
         <DialogHeader>
           <DialogTitle>Create team</DialogTitle>
           <DialogDescription>
-            Add a new team to manage products and customers.
+            Add a new team to manage to upload videos.
           </DialogDescription>
         </DialogHeader>
         <div>
           <div className="space-y-4 py-2 pb-4">
             <div className="space-y-2">
               <Label htmlFor="name">Team name</Label>
-              <Input id="name" placeholder="Acme Inc." />
+              <Input id="name" placeholder="Turf FC" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="plan">Subscription plan</Label>
