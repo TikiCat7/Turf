@@ -79,8 +79,6 @@ export default function TeamSwitcher({ className, teams }: TeamSwitcherProps) {
     })
   }, [org.organization])
 
-  if (!isLoaded) return null
-
   return (
     <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
       <Popover open={open} onOpenChange={setOpen}>
@@ -92,21 +90,21 @@ export default function TeamSwitcher({ className, teams }: TeamSwitcherProps) {
             aria-label="Select a team"
             className={cn('w-[200px] justify-between', className)}
           >
-            <Avatar className="mr-2 h-5 w-5">
-              <AvatarImage
-                src={
-                  org.organization
-                    ? selectedTeam.imageUrl
-                    : `https://avatar.vercel.sh/personal.png`
-                }
-                alt={selectedTeam.imageUrl}
-              />
-              <AvatarFallback>
-                {user.user?.firstName?.slice(0, 1)}
-              </AvatarFallback>
-            </Avatar>
-            {selectedTeam.label}
-            <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
+            {isLoaded && (
+              <>
+                <Avatar className="mr-2 h-5 w-5">
+                  <AvatarImage
+                    src={selectedTeam.imageUrl}
+                    alt={selectedTeam.imageUrl}
+                  />
+                  <AvatarFallback>
+                    {user.user?.firstName?.slice(0, 1)}
+                  </AvatarFallback>
+                </Avatar>
+                {selectedTeam.label}
+                <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
+              </>
+            )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
