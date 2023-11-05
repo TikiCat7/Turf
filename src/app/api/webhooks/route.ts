@@ -49,6 +49,8 @@ export async function POST(req: Request): Promise<Response> {
         .returning({
           userId: uploads.userId,
           teamId: uploads.teamId,
+          clerkUserId: uploads.clerkUserId,
+          clerkTeamId: uploads.clerkTeamId,
         })
 
       await db.insert(videos).values({
@@ -59,6 +61,8 @@ export async function POST(req: Request): Promise<Response> {
         teamId: upload[0].teamId,
         assetId: data.asset_id,
         userId: upload[0].userId,
+        clerkUserId: upload[0].clerkUserId,
+        clerkTeamId: upload[0].clerkTeamId,
       })
     } catch (e) {
       console.log(

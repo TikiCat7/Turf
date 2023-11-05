@@ -87,6 +87,12 @@ export const uploads = pgTable('uploads', {
   teamId: uuid('team_id')
     .notNull()
     .references(() => teams.id),
+  clerkUserId: text('clerk_user_id')
+    .notNull()
+    .references(() => users.clerkId),
+  clerkTeamId: text('clerk_team_id')
+    .notNull()
+    .references(() => teams.clerkId),
   uploadStatus: uploadStatusEnum('upload_status')
     .notNull()
     .default('preparing'),
@@ -125,6 +131,12 @@ export const videos = pgTable('videos', {
   assetId: varchar('asset_id', { length: 256 }).notNull(),
   visibility: text('visibility'),
   playbackUrl: text('playback_url'),
+  clerkUserId: text('clerk_user_id')
+    .notNull()
+    .references(() => users.clerkId),
+  clerkTeamId: text('clerk_team_id')
+    .notNull()
+    .references(() => teams.clerkId),
   // TODO: Add cuepoints, comments and anyothe relationional data later
   // cuepointsId: varchar("cuepoints_id", { length: 256 }).notNull(),
   // commentsId: varchar("comments_id", { length: 256 }).notNull(),

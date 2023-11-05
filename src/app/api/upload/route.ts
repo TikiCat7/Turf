@@ -62,6 +62,8 @@ export async function POST(): Promise<Response> {
         teamId: org[0].id,
         uploadId: upload.id,
         uploadUrl: upload.url,
+        clerkUserId: user[0].clerkId,
+        clerkTeamId: org[0].clerkId,
       })
       .returning({
         insertedId: uploads.id,
