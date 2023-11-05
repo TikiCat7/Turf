@@ -1,18 +1,19 @@
 'use client'
 
-import { OrganizationSwitcher, UserButton, useUser } from '@clerk/nextjs'
+import { useOrganization, useUser } from '@clerk/nextjs'
 import { UpChunk } from '@mux/upchunk'
 import { redirect } from 'next/dist/client/components/redirect'
 import { useRef, useState } from 'react'
 
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Progress } from '@/components/ui/progress'
 
 const Uploads = () => {
   const [isUploading, setIsUploading] = useState(false)
-  const [isPreparing, setIsPreparing] = useState(false)
-  const [uploadId, setUploadId] = useState(null)
+  const [isUploadDone, setIsUploadingDone] = useState(false)
   const [progress, setProgress] = useState<number | null>(null)
+  const [uploadId, setUploadId] = useState()
   const [errorMessage, setErrorMessage] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -20,6 +21,10 @@ const Uploads = () => {
   if (!user) {
     redirect('/sign-in')
   }
+
+  const org = useOrganization()
+
+  const [file, setFile] = useState<File>()
 
   const createUpload = async () => {
     try {
@@ -29,7 +34,7 @@ const Uploads = () => {
         console.log(await res.json())
         throw new Error('Error creating upload')
       }
-      const { id, url } = await res.json()
+      const { url, id } = await res.json()
       setUploadId(id)
       return url
     } catch (e) {
@@ -38,21 +43,32 @@ const Uploads = () => {
     }
   }
 
-  const startUpload = () => {
-    setIsUploading(true)
-
+  const prepareUpload = () => {
+    setIsUploadingDone(false)
     const files = inputRef.current?.files
     if (!files) {
+      setErrorMessage('No file selected.')
+      return
+    }
+    setFile(files[0])
+  }
+
+  const startUpload = async () => {
+    setIsUploading(true)
+    console.log('starting upload')
+    if (!file) {
       setErrorMessage('No file selected.')
       return
     }
 
     const upload = UpChunk.createUpload({
       endpoint: createUpload,
-      file: files[0],
+      file: file,
     })
 
     upload.on('error', (err: any) => {
+      setIsUploading(false)
+      setIsUploadingDone(false)
       setErrorMessage(err.detail.message)
     })
 
@@ -61,22 +77,40 @@ const Uploads = () => {
     })
 
     upload.on('success', async () => {
-      setIsPreparing(true)
+      setIsUploading(false)
+      setIsUploadingDone(true)
       console.log('success uploading, updating upload status')
     })
   }
   return (
-    <div>
-      <UserButton afterSignOutUrl="/" />
-      <OrganizationSwitcher />
-      <p className="text-2xl font-bold mb-2">Upload Video</p>
+    <div className="flex-col py-16 w-4/5 space-y-4">
+      <p className="text-4xl font-bold text-primary">Upload Video</p>
+      <p className="text-muted-foreground py-4">
+        Uploading video to {org.organization?.name}. While uploading, please
+        keep the page open!
+      </p>
+
       {errorMessage && <p className="text-primary">{errorMessage}</p>}
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="picture">Upload Video</Label>
-        <Input ref={inputRef} id="video" type="file" onChange={startUpload} />
-        {isUploading && <div>Uploading...{progress ? `${progress}%` : ''}</div>}
-        {isPreparing && <p>Upload done!</p>}
-        <p>UploadID: {uploadId}</p>
+        <Input
+          ref={inputRef}
+          id="video"
+          type="file"
+          onChange={prepareUpload}
+          disabled={isUploading}
+        />
+        {file && (
+          <Button
+            onClick={startUpload}
+            disabled={isUploading}
+            className="max-w-[100px]"
+          >
+            {isUploading ? 'Uploading...' : 'Upload'}
+          </Button>
+        )}
+        {isUploading && <Progress className="my-2" value={progress} />}
+        {isUploadDone && <p>Upload done!</p>}
+        {isUploadDone && <p>{uploadId}</p>}
       </div>
     </div>
   )
