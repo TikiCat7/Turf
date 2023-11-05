@@ -64,6 +64,7 @@ export default async function Assets() {
           .map((video: SelectVideo) => {
             return (
               <VideoRow
+                key={video.id}
                 video={video}
                 userImageUrl={user?.imageUrl}
                 userName={user?.firstName ?? ''}
@@ -90,10 +91,7 @@ function VideoRow({
   userName: string
 }) {
   return (
-    <div
-      className="flex space-x-2 w-full flex-col md:flex-row cursor-pointer"
-      key={video.id}
-    >
+    <div className="flex space-x-2 w-full flex-col md:flex-row cursor-pointer">
       <Link
         href={`assets/${video.assetId}`}
         className="flex space-x-2 flex-col sm:flex-row"
