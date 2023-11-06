@@ -7,7 +7,8 @@ import { teams, uploads, users } from '@/lib/db/schema'
 
 const { Video } = new Mux()
 
-export async function POST(): Promise<Response> {
+// TODO: handle the scenario that upload succeeds but saving the upload record fails
+export async function POST(req: Request): Promise<Response> {
   const { userId, orgId } = auth()
   console.log('inside api/upload')
   console.log('userId', userId)
@@ -53,6 +54,9 @@ export async function POST(): Promise<Response> {
       cors_origin: '*',
     })
 
+    const rawBody = await req.text()
+    const jsonBody = JSON.parse(rawBody)
+
     console.log('upload obj: ', upload)
     // save a record in Upload table to keep track of user / team
     const upload_id = await db
@@ -64,6 +68,11 @@ export async function POST(): Promise<Response> {
         uploadUrl: upload.url,
         clerkUserId: user[0].clerkId,
         clerkTeamId: org[0].clerkId,
+        videoName: jsonBody.name,
+        videoDescription: jsonBody.description,
+        videoLocation: jsonBody.location,
+        videoDate: new Date(jsonBody.date),
+        videoTypeEnum: jsonBody.type,
       })
       .returning({
         insertedId: uploads.id,
@@ -75,6 +84,7 @@ export async function POST(): Promise<Response> {
         id: upload.id,
         url: upload.url,
         upload_id: upload_id,
+        name: jsonBody.name,
       },
       { status: 200 }
     )

@@ -51,12 +51,21 @@ export async function POST(req: Request): Promise<Response> {
           teamId: uploads.teamId,
           clerkUserId: uploads.clerkUserId,
           clerkTeamId: uploads.clerkTeamId,
+          videoName: uploads.videoName,
+          videoDescription: uploads.videoDescription,
+          videoLocation: uploads.videoLocation,
+          videoType: uploads.videoTypeEnum,
+          videoDate: uploads.videoDate,
         })
 
       await db.insert(videos).values({
         uploadId: object.id,
         videoUrl: '',
-        videoName: 'test',
+        videoName: upload[0].videoName,
+        videoDescription: upload[0].videoDescription,
+        videoTypeEnum: upload[0].videoType,
+        videoLocation: upload[0].videoLocation,
+        videoDate: upload[0].videoDate,
         videoStatus: 'preparing',
         teamId: upload[0].teamId,
         assetId: data.asset_id,

@@ -6,6 +6,7 @@ import { MainNav } from '@/components/main-nav'
 import TeamSelection from '@/components/team-selection'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ModeToggle } from '@/components/theme-toggle'
+import { Toaster } from '@/components/ui/toaster'
 import { UserNav } from '@/components/user-nav'
 import { cn } from '@/lib/utils'
 
@@ -53,6 +54,7 @@ export default async function RootLayout({
                   </div>
                 </div>
               )}
+              <Toaster />
               {children}
             </main>
           </ThemeProvider>

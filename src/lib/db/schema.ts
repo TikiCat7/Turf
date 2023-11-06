@@ -77,6 +77,13 @@ export const uploadStatusEnum = pgEnum('uploadStatus', [
   'errored',
 ])
 
+export const videoTypeEnum = pgEnum('videoType', [
+  'Match',
+  'Friendly',
+  'Training',
+  'Misc',
+])
+
 export const uploads = pgTable('uploads', {
   id: uuid('id').defaultRandom().primaryKey(),
   uploadId: text('upload_id').notNull(),
@@ -96,6 +103,11 @@ export const uploads = pgTable('uploads', {
   uploadStatus: uploadStatusEnum('upload_status')
     .notNull()
     .default('preparing'),
+  videoTypeEnum: videoTypeEnum('video_type').notNull().default('Match'),
+  videoName: text('video_name').notNull(),
+  videoDescription: text('video_description').notNull(),
+  videoLocation: text('video_location').notNull(),
+  videoDate: timestamp('video_date').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
 })
 
@@ -137,6 +149,11 @@ export const videos = pgTable('videos', {
   clerkTeamId: text('clerk_team_id')
     .notNull()
     .references(() => teams.clerkId),
+  videoTypeEnum: videoTypeEnum('video_type').notNull().default('Match'),
+  videoDescription: text('video_description').notNull(),
+  videoLocation: text('video_location').notNull(),
+  videoDate: timestamp('video_date').notNull(),
+
   // TODO: Add cuepoints, comments and anyothe relationional data later
   // cuepointsId: varchar("cuepoints_id", { length: 256 }).notNull(),
   // commentsId: varchar("comments_id", { length: 256 }).notNull(),
