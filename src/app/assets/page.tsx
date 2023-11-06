@@ -57,7 +57,7 @@ export default async function Assets() {
   return (
     <div className="flex-col py-16 w-4/5 space-y-4">
       <div className="text-4xl font-bold mb-4">Video Gallery</div>
-      <Input placeholder="search" className="w-[400px]" />
+      <Input placeholder="search" className="max-w-[275px] md:max-w-[400px]" />
       <div className="grid grid-cols-1 gap-4 pt-4">
         {allAssets
           .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
@@ -109,7 +109,7 @@ function VideoRow({
           <div className="bg-gray-400 w-[279px] h-[157px] rounded-md" />
         )}
         <div className="flex flex-col">
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 items-center">
             <p className="lg:text-xl font-semibold">VS Uchiha FC First Half</p>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

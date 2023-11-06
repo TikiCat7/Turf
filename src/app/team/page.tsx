@@ -172,50 +172,22 @@ export default async function Team() {
             <CardDescription>4-1 win vs FC Uchiha 🔥</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 flex-col">
-            <div className="flex items-center space-x-2 justify-between">
-              <div className="flex items-center space-x-2">
-                <Avatar className="w-8 h-8">
-                  <AvatarImage src="https://avatar.vercel.sh/personal.png" />
-                  <AvatarFallback />
-                </Avatar>
-                <p>Uchiha FC</p>
-                <p className="font-bold text-xl">4-1</p>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div
+                className="flex flex-col xs:flex-row items-start justify-start space-y-2 xs:space-y-0 spaxe-x-2 xs:space-x-2 xs:justify-between"
+                key={i}
+              >
+                <div className="flex items-center space-x-2">
+                  <Avatar className="w-8 h-8">
+                    <AvatarImage src="https://avatar.vercel.sh/personal.png" />
+                    <AvatarFallback />
+                  </Avatar>
+                  <p>Uchiha FC</p>
+                  <p className="font-bold text-xl">4-1</p>
+                </div>
+                <Button>View</Button>
               </div>
-              <Button>View Match</Button>
-            </div>
-            <div className="flex items-center space-x-2 justify-between">
-              <div className="flex items-center space-x-2">
-                <Avatar className="w-8 h-8">
-                  <AvatarImage src="https://avatar.vercel.sh/personal.png" />
-                  <AvatarFallback />
-                </Avatar>
-                <p>Uchiha FC</p>
-                <p className="font-bold text-xl">4-1</p>
-              </div>
-              <Button>View Match</Button>
-            </div>
-            <div className="flex items-center space-x-2 justify-between">
-              <div className="flex items-center space-x-2">
-                <Avatar className="w-8 h-8">
-                  <AvatarImage src="https://avatar.vercel.sh/personal.png" />
-                  <AvatarFallback />
-                </Avatar>
-                <p>Uchiha FC</p>
-                <p className="font-bold text-xl">4-1</p>
-              </div>
-              <Button>View Match</Button>
-            </div>
-            <div className="flex items-center space-x-2 justify-between">
-              <div className="flex items-center space-x-2">
-                <Avatar className="w-8 h-8">
-                  <AvatarImage src="https://avatar.vercel.sh/personal.png" />
-                  <AvatarFallback />
-                </Avatar>
-                <p>Uchiha FC</p>
-                <p className="font-bold text-xl">4-1</p>
-              </div>
-              <Button>View Match</Button>
-            </div>
+            ))}
           </CardContent>
         </Card>
       </div>
