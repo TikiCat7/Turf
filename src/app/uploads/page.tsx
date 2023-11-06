@@ -43,6 +43,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import { cn, formatBytes } from '@/lib/utils'
@@ -250,7 +251,7 @@ const Uploads = () => {
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Input placeholder="description" {...field} />
+                        <Textarea placeholder="description" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
