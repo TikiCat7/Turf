@@ -4,6 +4,7 @@ import { eq } from 'drizzle-orm'
 import {
   BookOpenIcon,
   DownloadIcon,
+  // MapPinIcon,
   ScissorsIcon,
   ShareIcon,
 } from 'lucide-react'
@@ -58,7 +59,7 @@ export default async function Assets() {
     <div className="flex-col py-16 w-4/5 space-y-4">
       <div className="text-4xl font-bold mb-4">Video Gallery</div>
       <Input placeholder="search" className="max-w-[275px] md:max-w-[400px]" />
-      <div className="grid grid-cols-1 gap-4 pt-4">
+      <div className="flex flex-col space-y-4">
         {allAssets
           .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
           .map((video: SelectVideo) => {
@@ -91,26 +92,34 @@ function VideoRow({
   userName: string
 }) {
   return (
-    <div className="flex space-x-2 w-full flex-col md:flex-row cursor-pointer">
+    <div className="flex space-x-2 cursor-pointer">
       <Link
         href={`assets/${video.assetId}`}
-        className="flex space-x-2 flex-col sm:flex-row"
+        className="flex flex-col md:flex-row md:space-x-2"
       >
         {video.videoStatus === 'ready' ? (
-          <Image
-            priority={true}
-            alt="video_thumbnail"
-            src={`https://image.mux.com/${video.playbackUrl}/thumbnail.jpg?width=300&fit_mode=pad`}
-            className="rounded-md"
-            width={279}
-            height={157}
-          />
+          <div className="relative">
+            <Image
+              priority={true}
+              alt="video_thumbnail"
+              src={`https://image.mux.com/${video.playbackUrl}/thumbnail.jpg?width=300&fit_mode=pad`}
+              className="flex rounded-md"
+              width={279}
+              height={157}
+            />
+            <Badge className="font-bold text-xs absolute bottom-2 right-2 bg-primary/80">
+              {new Date(video.duration! * 1000).toISOString().slice(11, 19)}
+            </Badge>
+            <Badge className="absolute top-2 right-2 bg-primary/80">
+              {video.videoTypeEnum}
+            </Badge>
+          </div>
         ) : (
           <div className="bg-gray-400 w-[279px] h-[157px] rounded-md" />
         )}
-        <div className="flex flex-col">
-          <div className="flex space-x-4 items-center">
-            <p className="lg:text-xl font-semibold">VS Uchiha FC First Half</p>
+        <div className="flex flex-col md:w-[400px]">
+          <div className="flex space-x-4 items-center justify-between">
+            <p className="lg:text-xl font-semibold">{video.videoName}</p>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost">
@@ -138,22 +147,36 @@ function VideoRow({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-
           <div className="text-muted-foreground">
             <TimeAgoClient date={video.createdAt} locale="en-US" />
           </div>
           <div className="flex items-center space-x-1 pt-1">
-            <Avatar className="w-5 h-5">
-              <AvatarImage
-                src={
-                  userImageUrl
-                    ? userImageUrl
-                    : 'https://avatar.vercel.sh/personal.png'
-                }
-              />
-              <AvatarFallback />
-            </Avatar>
-            <p className="">{userName}</p>
+            <div className="flex flex-col">
+              <div className="flex items-center">
+                <Avatar className="w-5 h-5 mr-1">
+                  <AvatarImage
+                    src={
+                      userImageUrl
+                        ? userImageUrl
+                        : 'https://avatar.vercel.sh/personal.png'
+                    }
+                  />
+                  <AvatarFallback />
+                </Avatar>
+                <p className="w-8">{userName}</p>
+              </div>
+              <div>
+                {/* <p> */}
+                {/*   {video.videoDate.toLocaleDateString() + */}
+                {/*     ' ' + */}
+                {/*     video.videoDate.toLocaleTimeString()} */}
+                {/* </p> */}
+                {/* <div className="flex items-center text-xs text-muted-foreground"> */}
+                {/*   <MapPinIcon className="w-3 h-3" /> */}
+                {/*   {video.videoLocation} */}
+                {/* </div> */}
+              </div>
+            </div>
             {video.videoStatus === 'preparing' && <Badge>Preparing</Badge>}
           </div>
         </div>
