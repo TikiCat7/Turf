@@ -1,4 +1,4 @@
-import { auth, clerkClient } from '@clerk/nextjs'
+import { OrganizationSwitcher, auth, clerkClient } from '@clerk/nextjs'
 import { FacebookIcon, InstagramIcon } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -83,6 +83,7 @@ export default async function Team() {
 
   return (
     <div className="flex-col py-16 w-4/5">
+      <OrganizationSwitcher />
       <div className="flex items-center">
         <div className="flex items-center space-x-2">
           <Avatar className="w-8 h-8">
