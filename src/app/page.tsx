@@ -1,20 +1,20 @@
-// import { auth, currentUser } from '@clerk/nextjs'
-// import { redirect } from 'next/navigation'
+import { auth, currentUser } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
 
 import TeamCreationFormWrapper from '@/components/team-creation-form-wrapper'
 
 export default async function Home() {
-  // const user = await currentUser()
-  // const clerkUser = auth()
-  //
-  // if (!user) {
-  //   return redirect('/sign-in')
-  // }
-  //
-  // // if already in a team and it's active, redirect to team page
-  // if (clerkUser.sessionClaims?.org_id) {
-  //   redirect('/team')
-  // }
+  const user = await currentUser()
+  const clerkUser = auth()
+
+  if (!user) {
+    return redirect('/sign-in')
+  }
+
+  // if already in a team and it's active, redirect to team page
+  if (clerkUser.sessionClaims?.org_id) {
+    redirect('/team')
+  }
 
   // TODO: this page should be the landing page for new users. guide them on creating a new team or show them how to upload a video for personal gallery
   return (
