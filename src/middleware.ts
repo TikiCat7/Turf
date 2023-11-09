@@ -8,7 +8,6 @@ export default authMiddleware({
   publicRoutes: ['/', '/api/webhooks', '/api/webhooks/clerk'],
 
   async afterAuth(_, req) {
-    console.log('inside after auth: ', req.nextUrl)
     if (
       req.nextUrl.pathname.includes('usercreated') ||
       req.nextUrl.pathname.includes('orgcreated')
