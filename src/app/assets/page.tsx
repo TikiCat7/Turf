@@ -150,34 +150,23 @@ function VideoRow({
           <div className="text-muted-foreground">
             <TimeAgoClient date={video.createdAt} locale="en-US" />
           </div>
-          <div className="flex items-center space-x-1 pt-1">
-            <div className="flex flex-col">
-              <div className="flex items-center">
-                <Avatar className="w-5 h-5 mr-1">
-                  <AvatarImage
-                    src={
-                      userImageUrl
-                        ? userImageUrl
-                        : 'https://avatar.vercel.sh/personal.png'
-                    }
-                  />
-                  <AvatarFallback />
-                </Avatar>
-                <p className="w-8">{userName}</p>
-              </div>
-              <div>
-                {/* <p> */}
-                {/*   {video.videoDate.toLocaleDateString() + */}
-                {/*     ' ' + */}
-                {/*     video.videoDate.toLocaleTimeString()} */}
-                {/* </p> */}
-                {/* <div className="flex items-center text-xs text-muted-foreground"> */}
-                {/*   <MapPinIcon className="w-3 h-3" /> */}
-                {/*   {video.videoLocation} */}
-                {/* </div> */}
-              </div>
+          <div className="flex items-start space-y-2 pt-1 flex-col">
+            <div className="flex items-center">
+              <Avatar className="w-5 h-5 mr-1">
+                <AvatarImage
+                  src={
+                    userImageUrl
+                      ? userImageUrl
+                      : 'https://avatar.vercel.sh/personal.png'
+                  }
+                />
+                <AvatarFallback />
+              </Avatar>
+              <p className="w-8">{userName}</p>
             </div>
-            {video.videoStatus === 'preparing' && <Badge>Preparing</Badge>}
+            <div className="flex">
+              {video.videoStatus === 'preparing' && <Badge>Preparing</Badge>}
+            </div>
           </div>
         </div>
       </Link>

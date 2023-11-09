@@ -1,4 +1,5 @@
 import { currentUser } from '@clerk/nextjs'
+import Link from 'next/link'
 
 import SignoutButton from '@/components/signout-button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -40,7 +41,7 @@ export async function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            Gallery
+            <Link href="/assets"> Gallery</Link>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
@@ -51,7 +52,6 @@ export async function UserNav() {
             Settings
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <SignoutButton />

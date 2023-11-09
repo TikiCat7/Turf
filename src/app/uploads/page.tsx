@@ -317,7 +317,6 @@ const Uploads = () => {
                     </FormItem>
                   )}
                 />
-
                 <DialogFooter>
                   <Button type="submit">Upload Video</Button>
                 </DialogFooter>

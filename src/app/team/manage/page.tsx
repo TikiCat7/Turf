@@ -6,7 +6,6 @@ import { redirect } from 'next/navigation'
 import InviteForm from '@/components/invite-form'
 import RevokeForm from '@/components/revoke-form'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -14,13 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { db } from '@/lib/db'
 import { SelectUsers } from '@/lib/db/schema'
@@ -68,7 +60,7 @@ function MemberRow({ user }: { user: SelectUsers }) {
   )
 }
 
-export default async function Team() {
+export default async function ManageTeam() {
   const team = await getTeam()
   const user = auth()
   const isAdmin = user.orgRole === 'admin'
@@ -116,7 +108,8 @@ export default async function Team() {
       </p>
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-        <Card className="col-span-1">
+        <p className="text-2xl font-bold">Member Management</p>
+        <Card className="col-span-3">
           <Tabs defaultValue="members" className="">
             <TabsList className="mt-2 ml-2" defaultValue={'members'}>
               <TabsTrigger value="members">Members</TabsTrigger>
@@ -153,7 +146,7 @@ export default async function Team() {
                       Manage invitations to {team?.name}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="max-w-[600px]">
                     <InviteForm />
                   </CardContent>
                 </TabsContent>
@@ -186,74 +179,6 @@ export default async function Team() {
               </>
             )}
           </Tabs>
-        </Card>
-        <Card className="col-span-1">
-          <CardHeader>
-            <CardTitle>Upcoming</CardTitle>
-            <CardDescription>
-              <>
-                <span>Next match: Nov 8th vs Uchiha FC.</span>
-              </>
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center space-x-2 justify-between">
-              <div className="flex items-center space-x-2">
-                <Avatar className="w-8 h-8">
-                  <AvatarImage src="https://avatar.vercel.sh/personal.png" />
-                  <AvatarFallback />
-                </Avatar>
-                <div>
-                  <p>Uchiha FC</p>
-                  <p className="text-xs text-muted-foreground">
-                    November 8th, 19:00pm
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    <Link
-                      href="https://maps.app.goo.gl/PpHkKRKBKrrf87jq7"
-                      className="underline"
-                    >
-                      Turf-City pitch 4
-                    </Link>
-                  </p>
-                </div>
-              </div>
-              <Select>
-                <SelectTrigger className="w-[120px]">
-                  <SelectValue placeholder="Attending" />
-                </SelectTrigger>
-                <SelectContent className="w-8">
-                  <SelectItem value="Attending">Attending</SelectItem>
-                  <SelectItem value="Skip">Skip</SelectItem>
-                  <SelectItem value="Undecided">Undecided</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="col-span-1">
-          <CardHeader>
-            <CardTitle>Results</CardTitle>
-            <CardDescription>4-1 win vs FC Uchiha 🔥</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4 flex-col">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div
-                className="flex flex-col xs:flex-row items-start justify-start space-y-2 xs:space-y-0 spaxe-x-2 xs:space-x-2 xs:justify-between"
-                key={i}
-              >
-                <div className="flex items-center space-x-2">
-                  <Avatar className="w-8 h-8">
-                    <AvatarImage src="https://avatar.vercel.sh/personal.png" />
-                    <AvatarFallback />
-                  </Avatar>
-                  <p>Uchiha FC</p>
-                  <p className="font-bold text-xl">4-1</p>
-                </div>
-                <Button>View</Button>
-              </div>
-            ))}
-          </CardContent>
         </Card>
       </div>
     </div>

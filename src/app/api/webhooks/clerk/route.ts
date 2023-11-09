@@ -44,6 +44,14 @@ export async function POST(req: Request): Promise<Response> {
         })
         break
 
+      case 'organizationMembership.deleted':
+        console.log('user left a team! ', data)
+        await db
+          .delete(usersOnTeams)
+          // @ts-expect-error why is this type optional?
+          .where(eq(data.public_user_data.user_id, usersOnTeams.userId))
+        break
+
       case 'user.created':
         console.log('user created!', data)
         await db.insert(users).values({
@@ -71,6 +79,12 @@ export async function POST(req: Request): Promise<Response> {
           name: data.name,
           slug: data.slug!,
         })
+        break
+      case 'organization.deleted':
+        console.log('organization deleted!', data)
+        // TODO: Delete the UsersOnTeams records first, then delete the team
+        // @ts-expect-error why is this type optional?
+        await db.delete(teams).where(eq(data.id, teams.clerkId))
         break
     }
   } catch (e) {
