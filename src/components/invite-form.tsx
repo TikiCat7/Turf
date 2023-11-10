@@ -51,7 +51,7 @@ export default function InviteForm() {
           placeholder="email"
           name="email"
           required
-          className="col-span-4"
+          className="col-span-6 xs:col-span-4"
         />
         <Select defaultValue="basic_member" required name="type">
           <SelectTrigger className="w-[100px]">
@@ -59,7 +59,6 @@ export default function InviteForm() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="basic_member">Member</SelectItem>
-            <SelectItem value="guest_member">Guest</SelectItem>
             <SelectItem value="admin">Admin</SelectItem>
           </SelectContent>
         </Select>

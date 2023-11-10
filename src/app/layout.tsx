@@ -7,6 +7,7 @@ import TeamSelection from '@/components/team-selection'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ModeToggle } from '@/components/theme-toggle'
 import { Toaster } from '@/components/ui/toaster'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { UserNav } from '@/components/user-nav'
 import { cn } from '@/lib/utils'
 
@@ -39,24 +40,26 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Toaster />
-            <main className="flex min-h-screen flex-col items-center w-full">
-              {user && (
-                <div className="flex-col md:flex w-full">
-                  <div className="border-b">
-                    <div className="flex h-16 items-center px-[10%]">
-                      <TeamSelection />
-                      <MainNav className="mx-6" />
-                      <div className="ml-auto flex items-center space-x-4">
-                        <ModeToggle />
-                        <UserNav />
+            <TooltipProvider>
+              <Toaster />
+              <main className="flex min-h-screen flex-col items-center w-full">
+                {user && (
+                  <div className="flex-col md:flex w-full">
+                    <div className="border-b">
+                      <div className="flex h-16 items-center px-[10%]">
+                        <TeamSelection />
+                        <MainNav className="mx-6" />
+                        <div className="ml-auto flex items-center space-x-4">
+                          <ModeToggle />
+                          <UserNav />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
-              {children}
-            </main>
+                )}
+                {children}
+              </main>
+            </TooltipProvider>
           </ThemeProvider>
         </body>
       </html>

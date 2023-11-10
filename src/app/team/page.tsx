@@ -131,7 +131,7 @@ export default async function Team() {
               </TabsList>
             )}
 
-            <TabsContent value="members">
+            <TabsContent value="members" className="mt-0">
               <CardHeader>
                 <CardTitle>Members</CardTitle>
                 <CardDescription>
@@ -197,7 +197,7 @@ export default async function Team() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center space-x-2 justify-between">
+            <div className="flex items-start xs:space-x-2 space-x-0 space-y-4 xs:space-y-0 justify-between flex-col xs:flex-row">
               <div className="flex items-center space-x-2">
                 <Avatar className="w-8 h-8">
                   <AvatarImage src="https://avatar.vercel.sh/personal.png" />
@@ -239,18 +239,16 @@ export default async function Team() {
           <CardContent className="space-y-4 flex-col">
             {Array.from({ length: 5 }).map((_, i) => (
               <div
-                className="flex flex-col xs:flex-row items-start justify-start space-y-2 xs:space-y-0 spaxe-x-2 xs:space-x-2 xs:justify-between"
+                className="flex items-center space-x-2 justify-between"
                 key={i}
               >
                 <div className="flex items-center space-x-2">
-                  <Avatar className="w-8 h-8">
-                    <AvatarImage src="https://avatar.vercel.sh/personal.png" />
-                    <AvatarFallback />
-                  </Avatar>
                   <p>Uchiha FC</p>
                   <p className="font-bold text-xl">4-1</p>
                 </div>
-                <Button>View</Button>
+                <Button size="sm" variant="outline">
+                  View
+                </Button>
               </div>
             ))}
           </CardContent>

@@ -40,18 +40,26 @@ export async function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link href="/assets"> Gallery</Link>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <Link href="/team">
+            <DropdownMenuItem>Team</DropdownMenuItem>
+          </Link>
+          <Link href="/uploads">
+            <DropdownMenuItem>Upload</DropdownMenuItem>
+          </Link>
+          <Link href="/assets">
+            <DropdownMenuItem>Gallery</DropdownMenuItem>
+          </Link>
+          <DropdownMenuSeparator />
           <DropdownMenuItem>
             Billing
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            Settings
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <Link href="/team/manage">
+            <DropdownMenuItem>
+              Settings
+              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <SignoutButton />

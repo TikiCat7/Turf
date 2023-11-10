@@ -51,13 +51,13 @@ export default function RevokeForm({
 
   return (
     <div className="flex items-start flex-col" key={id}>
-      <Badge className="text-sm" variant={'outline'}>
+      <Badge className="text-xs md:text-sm mb-2" variant={'outline'}>
         {role === 'basic_member' ? 'Member' : 'Admin'}
       </Badge>
 
-      <div className="flex space-x-1 items-center">
-        <div className="text-sm">{email}</div>
-        <div className="text-sm">
+      <div className="flex md:space-x-1 items-start md:items-center flex-col sm:flex-row">
+        <div className="text-xs md:text-sm">{email}</div>
+        <div className="text-xs md:text-sm">
           {new Date(createdAt).toLocaleDateString()}
         </div>
         <form action={formAction}>
@@ -73,7 +73,7 @@ export default function RevokeForm({
             size="sm"
             variant={'secondary'}
             aria-disabled={pending}
-            className="ml-2"
+            className="mt-2 md:mt-0 md:ml-2"
           >
             Cancel
           </Button>
