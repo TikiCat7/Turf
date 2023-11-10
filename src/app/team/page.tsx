@@ -119,19 +119,18 @@ export default async function Team() {
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         <Card className="col-span-1">
           <Tabs defaultValue="members" className="">
-            <TabsList className="mt-2 ml-2" defaultValue={'members'}>
-              <TabsTrigger value="members">Members</TabsTrigger>
-              {isAdmin && (
-                <>
-                  <TabsTrigger value="invite">Invite</TabsTrigger>
-                  <TabsTrigger value="pending">
-                    {pendingInvitationCount > 0
-                      ? `Pending (${pendingInvitationCount})`
-                      : 'Pending'}
-                  </TabsTrigger>
-                </>
-              )}
-            </TabsList>
+            {isAdmin && (
+              <TabsList className="mt-2 ml-2" defaultValue={'members'}>
+                <TabsTrigger value="members">Members</TabsTrigger>
+                <TabsTrigger value="invite">Invite</TabsTrigger>
+                <TabsTrigger value="pending">
+                  {pendingInvitationCount > 0
+                    ? `Pending (${pendingInvitationCount})`
+                    : 'Pending'}
+                </TabsTrigger>
+              </TabsList>
+            )}
+
             <TabsContent value="members">
               <CardHeader>
                 <CardTitle>Members</CardTitle>

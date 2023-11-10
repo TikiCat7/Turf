@@ -49,13 +49,17 @@ export async function POST(req: Request): Promise<Response> {
       org[0]
     )
 
-    const upload = await Video.Uploads.create({
-      new_asset_settings: { playback_policy: 'public' },
-      cors_origin: '*',
-    })
-
     const rawBody = await req.text()
     const jsonBody = JSON.parse(rawBody)
+
+    const upload = await Video.Uploads.create({
+      test: jsonBody.isTestMode,
+      new_asset_settings: {
+        playback_policy: 'public',
+        encoding_tier: jsonBody.encodingTier,
+      },
+      cors_origin: '*',
+    })
 
     console.log('upload obj: ', upload)
     // save a record in Upload table to keep track of user / team

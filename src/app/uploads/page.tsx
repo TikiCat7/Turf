@@ -30,6 +30,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Popover,
   PopoverContent,
@@ -39,10 +40,13 @@ import { Progress } from '@/components/ui/progress'
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
@@ -65,6 +69,8 @@ const Uploads = () => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
+  const [isTestMode, setIsTestMode] = useState(false)
+  const [encoding, setEncoding] = useState('baseline')
 
   const { toast } = useToast()
 
@@ -96,7 +102,11 @@ const Uploads = () => {
       console.log('inside create upload')
       const res = await fetch('/api/upload', {
         method: 'POST',
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          isTestMode: isTestMode,
+          ...values,
+          encodingTier: encoding,
+        }),
       })
       if (!res.ok) {
         console.log(await res.json())
@@ -170,6 +180,31 @@ const Uploads = () => {
 
       {errorMessage && <p className="text-primary">{errorMessage}</p>}
       <div className="grid w-full max-w-sm items-center gap-1.5">
+        <div className="flex items-center space-x-2 mb-2">
+          <Switch
+            id="test-mode"
+            checked={isTestMode}
+            onCheckedChange={setIsTestMode}
+          />
+          <Label htmlFor="test-mode">Test Mode</Label>
+          <Select
+            defaultValue="baseline"
+            onValueChange={setEncoding}
+            value={encoding}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select encoding" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Encoding Tier</SelectLabel>
+                <SelectItem value="baseline">baseline</SelectItem>
+                <SelectItem value="smart">smart</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+
         <Input
           key={file?.name}
           ref={inputRef}
