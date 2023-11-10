@@ -1,5 +1,3 @@
-import { UserButton } from '@clerk/nextjs'
-
 import VideoSection from '@/components/video-section'
 import { db } from '@/lib/db'
 
@@ -34,9 +32,6 @@ export default async function AssetsPage({
 
   return (
     <section className="w-full p-8">
-      <div className="w-full flex h-[32px]">
-        <UserButton afterSignOutUrl="/" />
-      </div>
       {asset ? (
         <VideoSection
           assetId={asset.id}
