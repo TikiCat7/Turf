@@ -39,9 +39,10 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Toaster />
             <main className="flex min-h-screen flex-col items-center w-full">
               {user && (
-                <div className="hidden flex-col md:flex w-full">
+                <div className="flex-col md:flex w-full">
                   <div className="border-b">
                     <div className="flex h-16 items-center px-[10%]">
                       <TeamSelection />
@@ -54,7 +55,6 @@ export default async function RootLayout({
                   </div>
                 </div>
               )}
-              <Toaster />
               {children}
             </main>
           </ThemeProvider>

@@ -170,6 +170,12 @@ const Uploads = () => {
       console.log('success uploading, updating upload status')
     })
   }
+  const showTestToast = () => {
+    toast({
+      title: 'test test test',
+      description: `test test`,
+    })
+  }
   return (
     <div className="flex-col py-16 w-4/5 space-y-4">
       <p className="text-4xl font-bold text-primary">Upload Video</p>
@@ -204,6 +210,8 @@ const Uploads = () => {
             </SelectContent>
           </Select>
         </div>
+
+        <Button onClick={showTestToast}>Show Toast</Button>
 
         <Input
           key={file?.name}
