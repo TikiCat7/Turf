@@ -42,6 +42,7 @@ export default async function AssetsPage({
     <section className="w-full p-8">
       {asset ? (
         <VideoSection
+          duration={asset.duration!}
           assetId={asset.id}
           playbackUrl={asset.playbackUrl || ''}
           cuepoints={asset.cuepoints}

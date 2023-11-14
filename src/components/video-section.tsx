@@ -24,29 +24,34 @@ const formateCuepoints = (cuepoints: Cuepoints[]): MuxCuePointData[] => {
   if (!cuepoints) {
     return []
   }
-  return cuepoints.map((cuepoint) => {
-    const { time, description, playCategory, videoId, taggerId, id } = cuepoint
-    return {
-      time,
-      value: {
-        id,
-        description,
-        playCategory,
-        videoId,
-        taggerId,
-      },
-    }
-  })
+  return cuepoints
+    .sort((a, b) => (a.time > b.time ? 1 : -1))
+    .map((cuepoint) => {
+      const { time, description, playCategory, videoId, taggerId, id } =
+        cuepoint
+      return {
+        time,
+        value: {
+          id,
+          description,
+          playCategory,
+          videoId,
+          taggerId,
+        },
+      }
+    })
 }
 
 export default function VideoSection({
   assetId,
   playbackUrl,
   cuepoints,
+  duration,
 }: {
   assetId: string
   playbackUrl: string
   cuepoints: Cuepoints[]
+  duration: number
 }) {
   const playerRef = useRef<MuxPlayerElement>(null)
   const [_cuepoints, setCuepoints] = useState<Cuepoints[]>(cuepoints)
@@ -62,8 +67,10 @@ export default function VideoSection({
     <div>
       <VideoPlayer
         playerRef={playerRef}
+        videoId={assetId}
         playbackId={playbackUrl}
         muxCuepoints={formateCuepoints(_cuepoints)}
+        duration={duration}
       />
       <AddCuepoint videoId={assetId} playerRef={playerRef} />
     </div>

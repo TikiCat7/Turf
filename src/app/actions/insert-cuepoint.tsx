@@ -11,6 +11,7 @@ import { cuepoints, users } from '@/lib/db/schema'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function addCuepoint(_: any, formData: FormData) {
   console.log('inside addCuepoint action')
+  console.log('formData: ', formData)
   try {
     const clerkUser = nextjs.auth()
     const user = await db
@@ -42,7 +43,7 @@ export async function addCuepoint(_: any, formData: FormData) {
       success: true,
     }
   } catch (e) {
-    console.log('Something went wrong deleting a cuepoint!', e)
+    console.log('Something went wrong adding a cuepoint!', e)
     return { message: 'Failed to add cuepoint', cuepoint: null, success: false }
   }
 }
