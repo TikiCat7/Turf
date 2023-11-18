@@ -3,7 +3,6 @@
 import type MuxPlayerElement from '@mux/mux-player'
 import { useEffect, useRef, useState } from 'react'
 
-import AddCuepoint from '@/components/add-cuepoint'
 import VideoPlayer from '@/components/mux-player'
 import { Cuepoints } from '@/lib/db/schema'
 
@@ -64,15 +63,12 @@ export default function VideoSection({
   }, [cuepoints])
 
   return (
-    <div>
-      <VideoPlayer
-        playerRef={playerRef}
-        videoId={assetId}
-        playbackId={playbackUrl}
-        muxCuepoints={formateCuepoints(_cuepoints)}
-        duration={duration}
-      />
-      <AddCuepoint videoId={assetId} playerRef={playerRef} />
-    </div>
+    <VideoPlayer
+      playerRef={playerRef}
+      videoId={assetId}
+      playbackId={playbackUrl}
+      muxCuepoints={formateCuepoints(_cuepoints)}
+      duration={duration}
+    />
   )
 }

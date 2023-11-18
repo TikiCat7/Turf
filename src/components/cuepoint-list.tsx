@@ -1,5 +1,4 @@
 import type MuxPlayerElement from '@mux/mux-player'
-import format from 'date-fns/format'
 import { RefObject } from 'react'
 
 import {
@@ -32,7 +31,7 @@ export default function CuepointList({
   return (
     <Card className="flex items-center justify-center flex-col">
       <CardHeader className="w-full items-start pb-2">
-        <CardTitle>Match Events</CardTitle>
+        <CardTitle>Video Events</CardTitle>
         <CardDescription>
           Notable events that occured in the video.
         </CardDescription>
@@ -44,6 +43,7 @@ export default function CuepointList({
           <ScrollArea className="h-36 lg:h-72 rounded-md w-full flex flex-col">
             {cuepoints.map((cuepoint, i) => {
               const isActive = cuepoint.time === activeCuePoint?.time
+              // TODO: Scroll to active cuepoint
               // if (i > 0) {
               //   document
               //     .getElementById(`item_${i}`)
@@ -62,8 +62,10 @@ export default function CuepointList({
                   <div className="flex items-center space-x-2">
                     <p className="text-base">{cuepoint.value.playCategory}</p>
                     <p className="text-xs text-muted-foreground">
-                      <span className="font-bold text-secondary-foreground cursor-pointer tabular-nums">
-                        {format(new Date(cuepoint.time * 1000), 'mm:ss.SS')}
+                      <span className="font-bold text-secondary-foreground cursor-pointer">
+                        {new Date(cuepoint.time * 1000)
+                          .toISOString()
+                          .slice(14, 22)}
                       </span>{' '}
                       by{' '}
                       <span className="font-bold text-blue-500 cursor-pointer">

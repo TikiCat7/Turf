@@ -2,7 +2,6 @@
 
 import type MuxPlayerElement from '@mux/mux-player'
 import MuxPlayer from '@mux/mux-player-react'
-import format from 'date-fns/format'
 import { useState } from 'react'
 
 import CuepointList from '@/components/cuepoint-list'
@@ -96,7 +95,9 @@ export default function VideoPlayer({
                       ⚽️ {cuepoint.value.playCategory}
                     </p>
                     <p className="text-white font-xs">
-                      {format(new Date(cuepoint.time * 1000), 'mm:ss.SS')}
+                      {new Date(cuepoint.time * 1000)
+                        .toISOString()
+                        .slice(14, 22)}
                     </p>
                   </div>
                 </div>
