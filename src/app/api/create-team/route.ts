@@ -16,7 +16,7 @@ export async function POST(req: Request): Promise<Response> {
 
     const result = await clerkClient.organizations.createOrganization({
       name: jsonBody.teamName,
-      slug: jsonBody.teamName.replace(/ /g, '-'),
+      slug: jsonBody.teamName.replace(/ /g, '-').toLowerCase(),
       createdBy: userId,
       publicMetadata: jsonBody,
     })
