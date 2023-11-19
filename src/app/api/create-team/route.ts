@@ -11,6 +11,9 @@ export async function POST(req: Request): Promise<Response> {
     const jsonBody = JSON.parse(rawBody)
     console.log('jsonBody: ', jsonBody)
 
+    console.log('sending request to clerk to create a team')
+    console.log('slug: ', jsonBody.teamName.replace(/ /g, '-'))
+
     const result = await clerkClient.organizations.createOrganization({
       name: jsonBody.teamName,
       slug: jsonBody.teamName.replace(/ /g, '-'),

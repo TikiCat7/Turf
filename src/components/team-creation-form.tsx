@@ -111,11 +111,6 @@ export default function TeamCreationForm({
       console.log(data)
 
       if (res.status !== 200) {
-        if (data.error.status === 422) {
-          throw new Error(
-            'A team with that name already exists. Please try another team name.'
-          )
-        }
         throw new Error(data.error.errors[0].message)
       }
       console.log('result: ', data)
