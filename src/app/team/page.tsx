@@ -1,5 +1,5 @@
-import { OrganizationSwitcher, auth, clerkClient } from '@clerk/nextjs'
-import { FacebookIcon, InstagramIcon } from 'lucide-react'
+import { auth, clerkClient } from '@clerk/nextjs'
+import { InstagramIcon } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
@@ -83,7 +83,7 @@ export default async function Team() {
 
   return (
     <div className="flex-col py-16 w-4/5">
-      <OrganizationSwitcher />
+      {/* <OrganizationSwitcher /> */}
       <div className="flex items-center">
         <div className="flex items-center space-x-2">
           <Avatar className="w-8 h-8">
@@ -102,12 +102,6 @@ export default async function Team() {
               className="text-muted-foreground"
             >
               <InstagramIcon className="w-4 h-4" />
-            </Link>
-            <Link
-              href="https://instagram.com/bigpoppas.fc?igshid=YmMyMTA2M2Y="
-              className="text-muted-foreground"
-            >
-              <FacebookIcon className="w-4 h-4" />
             </Link>
           </div>
         </div>
@@ -187,7 +181,7 @@ export default async function Team() {
             )}
           </Tabs>
         </Card>
-        <Card className="col-span-1">
+        <Card className="col-span-1 bg-black/10 opacity-50 pointer-events-none">
           <CardHeader>
             <CardTitle>Upcoming</CardTitle>
             <CardDescription>
@@ -231,7 +225,7 @@ export default async function Team() {
             </div>
           </CardContent>
         </Card>
-        <Card className="col-span-1">
+        <Card className="col-span-1 bg-black/10 opacity-50 pointer-events-none">
           <CardHeader>
             <CardTitle>Results</CardTitle>
             <CardDescription>4-1 win vs FC Uchiha 🔥</CardDescription>
