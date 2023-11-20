@@ -93,7 +93,7 @@ export default function CuepointTag({
   const updateCurrentTime = () => {
     const { current } = playerRef
     if (current) {
-      console.log('updating the time')
+      // TODO: HACKY AF
       // Get the current time of the video and update the state
       setTime(playerRef?.current?.currentTime ?? 0)
     }
@@ -110,7 +110,6 @@ export default function CuepointTag({
         name="playCategory"
         required
       >
-        <p>{time}</p>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Event category" />
         </SelectTrigger>

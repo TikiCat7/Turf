@@ -38,7 +38,7 @@ export default function CuepointList({
       </CardHeader>
       <CardContent className="w-full px-6">
         {cuepoints.length === 0 ? (
-          <p className="text-xs text-muted-foreground">No events tagged 😭</p>
+          <p className="text-xs text-muted-foreground">0 events tagged</p>
         ) : (
           <ScrollArea className="h-36 lg:h-72 rounded-md w-full flex flex-col">
             {cuepoints.map((cuepoint, i) => {
