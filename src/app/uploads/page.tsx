@@ -64,7 +64,7 @@ const formSchema = z.object({
 
 const Uploads = () => {
   const [isUploading, setIsUploading] = useState(false)
-  const [progress, setProgress] = useState<number | null>(null)
+  const [progress, setProgress] = useState<number | null>(0)
   const [errorMessage, setErrorMessage] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
@@ -135,6 +135,10 @@ const Uploads = () => {
   const startUpload = async (values: z.infer<typeof formSchema>) => {
     setIsUploadModalOpen(false)
     setIsUploading(true)
+    toast({
+      title: `Uploading Video`,
+      description: `${values.name} is being uploaded.`,
+    })
     console.log('starting upload')
     if (!file) {
       setErrorMessage('No file selected.')
@@ -150,6 +154,10 @@ const Uploads = () => {
       setIsUploading(false)
       setErrorMessage(err.detail.message)
       // TODO: delete upload record?
+      toast({
+        title: "Couldn't upload video",
+        description: err.detail.message,
+      })
     })
 
     upload.on('progress', (progress: any) => {
@@ -170,205 +178,217 @@ const Uploads = () => {
       console.log('success uploading, updating upload status')
     })
   }
-  const showTestToast = () => {
-    toast({
-      title: 'test test test',
-      description: `test test`,
-    })
-  }
   return (
     <div className="flex-col py-16 w-4/5 space-y-4">
       <p className="text-4xl font-bold text-primary">Upload Video</p>
-      <p className="text-muted-foreground py-4">
-        Uploading video to {org.organization?.name}. While uploading, please
-        keep the page open!
-      </p>
+      {user.user?.organizationMemberships[0].role === 'admin' ? (
+        <>
+          <p className="text-muted-foreground py-4">
+            Uploading video to {org.organization?.name}. While uploading, please
+            keep the page open!
+          </p>
 
-      {errorMessage && <p className="text-primary">{errorMessage}</p>}
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <div className="flex items-center space-x-2 mb-2">
-          <Switch
-            id="test-mode"
-            checked={isTestMode}
-            onCheckedChange={setIsTestMode}
-          />
-          <Label htmlFor="test-mode">Test Mode</Label>
-          <Select
-            defaultValue="baseline"
-            onValueChange={setEncoding}
-            value={encoding}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select encoding" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Encoding Tier</SelectLabel>
-                <SelectItem value="baseline">baseline</SelectItem>
-                <SelectItem value="smart">smart</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <Button onClick={showTestToast}>Show Toast</Button>
-
-        <Input
-          key={file?.name}
-          ref={inputRef}
-          id="video"
-          type="file"
-          onChange={prepareUpload}
-          disabled={isUploading}
-          accept=".mp4, .mov, .avi, .mkv, .wmv"
-        />
-        <Dialog
-          open={isUploadModalOpen}
-          onOpenChange={(open) => {
-            setIsUploadModalOpen(open)
-            form.reset()
-            inputRef.current?.value === null
-            setFile(undefined)
-          }}
-        >
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Video Details</DialogTitle>
-              <DialogDescription>
-                Add details for your video file.
-              </DialogDescription>
-            </DialogHeader>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+          {errorMessage && <p className="text-primary">{errorMessage}</p>}
+          <div className="grid w-full max-w-sm items-center gap-1.5">
+            <div className="flex items-center space-x-2 mb-2">
+              <Switch
+                id="test-mode"
+                checked={isTestMode}
+                onCheckedChange={setIsTestMode}
+              />
+              <Label htmlFor="test-mode">Test Mode</Label>
+              <Select
+                defaultValue="baseline"
+                onValueChange={setEncoding}
+                value={encoding}
               >
-                <div className="text-muted-foreground text-xs">
-                  <p>File: {file?.name}</p>
-                  <p>Size: {formatBytes(Number(file?.size))} bytes</p>
-                  <p>Type: {file?.type}</p>
-                </div>
-                <FormField
-                  control={form.control}
-                  name="type"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Type</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select video type" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="Match">Match</SelectItem>
-                          <SelectItem value="Friendly">Friendly</SelectItem>
-                          <SelectItem value="Training">Training</SelectItem>
-                          <SelectItem value="Misc">Misc</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Video Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="video name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Description</FormLabel>
-                      <FormControl>
-                        <Textarea placeholder="description" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="location"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Location</FormLabel>
-                      <FormControl>
-                        <Input placeholder="location" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="date"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Date</FormLabel>
-                      <Popover
-                        open={isCalendarOpen}
-                        onOpenChange={setIsCalendarOpen}
-                      >
-                        <PopoverTrigger asChild>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select encoding" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Encoding Tier</SelectLabel>
+                    <SelectItem value="baseline">baseline</SelectItem>
+                    <SelectItem value="smart">smart</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <Input
+              key={file?.name}
+              ref={inputRef}
+              id="video"
+              type="file"
+              onChange={prepareUpload}
+              disabled={isUploading}
+              accept=".mp4, .mov, .avi, .mkv, .wmv"
+            />
+            <Dialog
+              open={isUploadModalOpen}
+              onOpenChange={(open) => {
+                setIsUploadModalOpen(open)
+                form.reset()
+                inputRef.current?.value === null
+                setFile(undefined)
+              }}
+            >
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Video Details</DialogTitle>
+                  <DialogDescription>
+                    Add details for your video file.
+                  </DialogDescription>
+                </DialogHeader>
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8"
+                  >
+                    <div className="text-muted-foreground text-xs">
+                      <p>File: {file?.name}</p>
+                      <p>Size: {formatBytes(Number(file?.size))} bytes</p>
+                      <p>Type: {file?.type}</p>
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name="type"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Type</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select video type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="Match">Match</SelectItem>
+                              <SelectItem value="Friendly">Friendly</SelectItem>
+                              <SelectItem value="Training">Training</SelectItem>
+                              <SelectItem value="Misc">Misc</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Video Name</FormLabel>
                           <FormControl>
-                            <Button
-                              variant={'outline'}
-                              className={cn(
-                                'w-[240px] pl-3 text-left font-normal',
-                                !field.value && 'text-muted-foreground'
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, 'PPP')
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
+                            <Input placeholder="video name" {...field} />
                           </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={(e) => {
-                              field.onChange(e)
-                              setTimeout(() => setIsCalendarOpen(false), 130)
-                            }}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date('1900-01-01')
-                            }
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <DialogFooter>
-                  <Button type="submit">Upload Video</Button>
-                </DialogFooter>
-              </form>
-            </Form>
-          </DialogContent>
-        </Dialog>
-        {isUploading && <Progress className="my-2" value={progress} />}
-      </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Description</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="description" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="location"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Location</FormLabel>
+                          <FormControl>
+                            <Input placeholder="location" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="date"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>Date</FormLabel>
+                          <Popover
+                            open={isCalendarOpen}
+                            onOpenChange={setIsCalendarOpen}
+                          >
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant={'outline'}
+                                  className={cn(
+                                    'w-[240px] pl-3 text-left font-normal',
+                                    !field.value && 'text-muted-foreground'
+                                  )}
+                                >
+                                  {field.value ? (
+                                    format(field.value, 'PPP')
+                                  ) : (
+                                    <span>Pick a date</span>
+                                  )}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={(e) => {
+                                  field.onChange(e)
+                                  setTimeout(
+                                    () => setIsCalendarOpen(false),
+                                    130
+                                  )
+                                }}
+                                disabled={(date) =>
+                                  date > new Date() ||
+                                  date < new Date('1900-01-01')
+                                }
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <DialogFooter>
+                      <Button type="submit">Upload Video</Button>
+                    </DialogFooter>
+                  </form>
+                </Form>
+              </DialogContent>
+            </Dialog>
+            {isUploading && (
+              <div className="flex-col">
+                <Progress className="my-2" value={progress} />
+                <p>{progress}% Uploaded</p>
+              </div>
+            )}
+          </div>
+        </>
+      ) : (
+        <p className="text-muted-foreground">
+          Disabled for non-admins for now 🙇‍♂️
+        </p>
+      )}
     </div>
   )
 }
