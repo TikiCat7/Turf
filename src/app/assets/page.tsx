@@ -8,6 +8,7 @@ import {
   ScissorsIcon,
   ShareIcon,
 } from 'lucide-react'
+import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -26,6 +27,10 @@ import { db } from '@/lib/db'
 import { users } from '@/lib/db/schema'
 
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'Gallery',
+}
 
 async function getAssets() {
   // TODO: DRY
@@ -75,12 +80,12 @@ export default async function Assets() {
                   className="flex flex-col md:flex-row md:space-x-2"
                 >
                   {video.videoStatus === 'ready' ? (
-                    <div className="relative">
+                    <div className="relative max-w-[300px]">
                       <Image
                         priority={true}
                         alt="video_thumbnail"
                         src={`https://image.mux.com/${video.playbackUrl}/thumbnail.jpg?width=300&fit_mode=pad`}
-                        className="flex rounded-md"
+                        className="rounded-md w-[350px] md:w-[300px]"
                         width={279}
                         height={157}
                       />
@@ -101,50 +106,59 @@ export default async function Assets() {
                       <p className="lg:text-xl font-semibold">
                         {video.videoName}
                       </p>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost">
-                            <span className="sr-only">Actions</span>
-                            <DotsHorizontalIcon className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem className="space-x-2">
-                            <ShareIcon className="w-4 h-4" />
-                            <p>Share</p>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="space-x-2">
-                            <DownloadIcon className="h4 w-4" />
-                            <p>Download Video</p>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="space-x-2">
-                            <ScissorsIcon className="h-4 w-4" />
-                            <p>Clip</p>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="space-x-2">
-                            <BookOpenIcon className="h-4 w-4" />
-                            <p>Match Info</p>
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
                     </div>
-                    <div className="text-muted-foreground">
-                      <TimeAgoClient date={video.createdAt} locale="en-US" />
-                    </div>
+
                     <div className="flex items-start space-y-2 pt-1 flex-col">
-                      <div className="flex items-center">
-                        <Avatar className="w-5 h-5 mr-1">
-                          <AvatarImage
-                            src={
-                              video.uploader.avatarUrl
-                                ? video.uploader.avatarUrl
-                                : 'https://avatar.vercel.sh/personal.png'
-                            }
-                          />
-                          <AvatarFallback />
-                        </Avatar>
-                        <p className="w-8">{video.uploader.firstName}</p>
+                      <div className="flex justify-between w-full items-center">
+                        <div className="flex items-start flex-col">
+                          <div className="text-muted-foreground">
+                            <TimeAgoClient
+                              date={video.createdAt}
+                              locale="en-US"
+                            />
+                          </div>
+                          <div className="flex items-center">
+                            <Avatar className="w-5 h-5 mr-1">
+                              <AvatarImage
+                                src={
+                                  video.uploader.avatarUrl
+                                    ? video.uploader.avatarUrl
+                                    : 'https://avatar.vercel.sh/personal.png'
+                                }
+                              />
+                              <AvatarFallback />
+                            </Avatar>
+                            <p className="w-8">{video.uploader.firstName}</p>
+                          </div>
+                        </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost">
+                              <span className="sr-only">Actions</span>
+                              <DotsHorizontalIcon className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem className="space-x-2">
+                              <DownloadIcon className="h4 w-4" />
+                              <p>Download Video</p>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="space-x-2" disabled>
+                              <ShareIcon className="w-4 h-4" />
+                              <p>Share</p>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="space-x-2" disabled>
+                              <ScissorsIcon className="h-4 w-4" />
+                              <p>Clip</p>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="space-x-2" disabled>
+                              <BookOpenIcon className="h-4 w-4" />
+                              <p>Match Info</p>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
+
                       <div className="flex">
                         {video.videoStatus === 'preparing' && (
                           <Badge>Preparing</Badge>
