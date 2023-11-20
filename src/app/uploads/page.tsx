@@ -162,7 +162,7 @@ const Uploads = () => {
 
     upload.on('progress', (progress: any) => {
       setProgress(Math.floor(progress.detail))
-      document.title = `${progress.detail}% uploaded`
+      document.title = `${progress.detail.toFixed(0)}% uploaded`
     })
 
     upload.on('success', async () => {
@@ -380,7 +380,7 @@ const Uploads = () => {
             {isUploading && (
               <div className="flex-col">
                 <Progress className="my-2" value={progress} />
-                <p>{progress}% Uploaded</p>
+                <p className="text-muted-foreground">{progress}% Uploaded</p>
               </div>
             )}
           </div>

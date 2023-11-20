@@ -99,7 +99,11 @@ export default async function Assets() {
                       </Badge>
                     </div>
                   ) : (
-                    <div className="bg-gray-400 w-[279px] h-[157px] rounded-md" />
+                    <div className="bg-gray-400/50 w-[300px] h-[157px] rounded-md relative">
+                      <Badge className="top-2 right-2 absolute bg-primary/80">
+                        Preparing
+                      </Badge>
+                    </div>
                   )}
                   <div className="flex flex-col md:w-[400px]">
                     <div className="flex space-x-4 items-center justify-between">
@@ -157,12 +161,6 @@ export default async function Assets() {
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
-                      </div>
-
-                      <div className="flex">
-                        {video.videoStatus === 'preparing' && (
-                          <Badge>Preparing</Badge>
-                        )}
                       </div>
                     </div>
                   </div>
