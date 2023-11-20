@@ -162,6 +162,7 @@ const Uploads = () => {
 
     upload.on('progress', (progress: any) => {
       setProgress(Math.floor(progress.detail))
+      document.title = `${progress.detail}% uploaded`
     })
 
     upload.on('success', async () => {

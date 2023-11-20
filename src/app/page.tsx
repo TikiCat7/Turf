@@ -1,8 +1,12 @@
 import { auth, currentUser } from '@clerk/nextjs'
+import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
 import TeamCreationFormWrapper from '@/components/team-creation-form-wrapper'
 
+export const metadata: Metadata = {
+  title: 'Create Team',
+}
 export default async function Home() {
   const user = await currentUser()
   const clerkUser = auth()

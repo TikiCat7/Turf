@@ -1,5 +1,6 @@
 import { auth, clerkClient } from '@clerk/nextjs'
 import { InstagramIcon } from 'lucide-react'
+import { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
@@ -26,6 +27,10 @@ import { db } from '@/lib/db'
 import { SelectUsers } from '@/lib/db/schema'
 
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'Team',
+}
 
 async function getTeam() {
   const clerkUser = auth()
@@ -72,6 +77,10 @@ export default async function Team() {
   const team = await getTeam()
   const user = auth()
   const isAdmin = user.orgRole === 'admin'
+  const org = await clerkClient.organizations.getOrganization({
+    organizationId: user.orgId ?? '',
+  })
+  console.log(org)
   const invitations =
     await clerkClient.organizations.getOrganizationInvitationList({
       organizationId: user.orgId ?? '',
@@ -98,7 +107,8 @@ export default async function Team() {
           <p className="text-4xl font-bold text-primary">{team?.name}</p>
           <div className="pt-3 flex items-center space-x-2">
             <Link
-              href="https://instagram.com/bigpoppas.fc?igshid=YmMyMTA2M2Y="
+              // @ts-expect-error - clerk doesn't have a type for this
+              href={org.publicMetadata.socials[0].url}
               className="text-muted-foreground"
             >
               <InstagramIcon className="w-4 h-4" />
