@@ -10,6 +10,7 @@ import CuepointTag from '@/components/cuepoint-tag'
 // import DeleteCuepoint from '@/components/delete-cuepoint'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { MuxCuePointData } from '@/components/video-section'
+import { SelectUsers } from '@/lib/db/schema'
 import { cn } from '@/lib/utils'
 
 import { Button } from './ui/button'
@@ -23,12 +24,14 @@ export default function VideoPlayer({
   muxCuepoints,
   playerRef,
   duration,
+  teamMembers,
 }: {
   playbackId: string
   videoId: string
   muxCuepoints: MuxCuePointData[]
   playerRef: React.RefObject<MuxPlayerElement>
   duration: number
+  teamMembers: { user: SelectUsers; userId: string; teamId: string }[]
 }) {
   const [activeCuePoint, setActiveCuePoint] = useState<
     MuxCuePointData | undefined
@@ -110,7 +113,7 @@ export default function VideoPlayer({
                       )}
                     >
                       <p className="font-bold text-white">
-                        ‚öΩÔ∏è {cuepoint.value.playCategory}
+                        {cuepoint.value.playCategory}
                       </p>
                       <p className="text-white font-xs">
                         {new Date(cuepoint.time * 1000)
@@ -142,7 +145,11 @@ export default function VideoPlayer({
             />
           </TabsContent>
           <TabsContent value="tag">
-            <CuepointTag playerRef={playerRef} videoId={videoId} />
+            <CuepointTag
+              playerRef={playerRef}
+              videoId={videoId}
+              teamMembers={teamMembers}
+            />
           </TabsContent>
         </Tabs>
       </div>

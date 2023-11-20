@@ -4,7 +4,7 @@ import type MuxPlayerElement from '@mux/mux-player'
 import { useEffect, useRef, useState } from 'react'
 
 import VideoPlayer from '@/components/mux-player'
-import { Cuepoints } from '@/lib/db/schema'
+import { Cuepoints, SelectUsers } from '@/lib/db/schema'
 
 export const dynamic = 'force-dynamic'
 
@@ -46,11 +46,13 @@ export default function VideoSection({
   playbackUrl,
   cuepoints,
   duration,
+  teamMembers,
 }: {
   assetId: string
   playbackUrl: string
   cuepoints: Cuepoints[]
   duration: number
+  teamMembers: { user: SelectUsers; userId: string; teamId: string }[]
 }) {
   const playerRef = useRef<MuxPlayerElement>(null)
   const [_cuepoints, setCuepoints] = useState<Cuepoints[]>(cuepoints)
@@ -69,6 +71,7 @@ export default function VideoSection({
       playbackId={playbackUrl}
       muxCuepoints={formateCuepoints(_cuepoints)}
       duration={duration}
+      teamMembers={teamMembers}
     />
   )
 }

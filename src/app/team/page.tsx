@@ -80,7 +80,6 @@ export default async function Team() {
   const org = await clerkClient.organizations.getOrganization({
     organizationId: user.orgId ?? '',
   })
-  console.log(org)
   const invitations =
     await clerkClient.organizations.getOrganizationInvitationList({
       organizationId: user.orgId ?? '',

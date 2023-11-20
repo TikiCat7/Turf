@@ -42,6 +42,7 @@ export default function CuepointList({
         ) : (
           <ScrollArea className="h-36 lg:h-72 rounded-md w-full flex flex-col">
             {cuepoints.map((cuepoint, i) => {
+              const isFirstAndNotPlaying = i === 0 && !activeCuePoint
               const isActive = cuepoint.time === activeCuePoint?.time
               // TODO: Scroll to active cuepoint
               // if (i > 0) {
@@ -53,7 +54,7 @@ export default function CuepointList({
                 <div
                   className={cn(
                     'justify-between flex flex-col p-2 rounded-md cursor-pointer',
-                    isActive && 'bg-secondary'
+                    (isActive || isFirstAndNotPlaying) && 'bg-secondary'
                   )}
                   key={i}
                   id={`item_${i}`}
@@ -61,16 +62,10 @@ export default function CuepointList({
                 >
                   <div className="flex items-center space-x-2 px-2">
                     <p className="text-base">{cuepoint.value.playCategory}</p>
-                    <p className="text-xs text-muted-foreground">
-                      <span className="text-secondary-foreground cursor-pointer">
-                        {new Date(cuepoint.time * 1000)
-                          .toISOString()
-                          .slice(14, 22)}
-                      </span>{' '}
-                      by{' '}
-                      <span className="font-bold text-blue-500 cursor-pointer">
-                        @Joe
-                      </span>
+                    <p className="text-muted-foreground cursor-pointer">
+                      {new Date(cuepoint.time * 1000)
+                        .toISOString()
+                        .slice(14, 22)}
                     </p>
                   </div>
                 </div>

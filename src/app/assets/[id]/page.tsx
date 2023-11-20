@@ -61,12 +61,19 @@ async function getAsset(assetId: string) {
           firstName: true,
           lastName: true,
           email: true,
+          avatarUrl: true,
         },
         with: {
           usersToTeams: true,
         },
       },
-      team: true,
+      team: {
+        with: {
+          usersToTeams: {
+            with: { user: true },
+          },
+        },
+      },
       cuepoints: true,
     },
   })
@@ -90,16 +97,22 @@ export default async function AssetsPage({
         <div className="space-y-1 pb-2">
           <Badge className="">{asset?.videoTypeEnum}</Badge>
           <h1 className="text-2xl font-bold">{asset?.videoName}</h1>
-          <div className="flex items-center space-x-2 pb-2">
-            <h1 className="text-muted-foreground">{asset?.videoDescription}</h1>
-            <h1 className="text-muted-foreground text-sm">
-              {asset?.videoLocation}
-            </h1>
-            {asset?.videoDate && (
-              <h1 className="text-muted-foreground text-sm">
-                {new Date(asset?.videoDate).toLocaleDateString()}
+          <div className="flex items-start flex-col pb-2">
+            <div className="flex items-start flex-col">
+              <h1 className="text-muted-foreground">
+                {asset?.videoDescription}
               </h1>
-            )}
+              <div className="flex items-center space-x-2">
+                <h1 className="text-muted-foreground text-sm">
+                  {asset?.videoLocation}
+                </h1>
+                {asset?.videoDate && (
+                  <h1 className="text-muted-foreground text-sm">
+                    {new Date(asset?.videoDate).toLocaleDateString()}
+                  </h1>
+                )}
+              </div>
+            </div>
           </div>
         </div>
         <div className="lg:hidden block">
@@ -134,6 +147,7 @@ export default async function AssetsPage({
 
       {asset ? (
         <VideoSection
+          teamMembers={asset.team.usersToTeams}
           duration={asset.duration!}
           assetId={asset.id}
           playbackUrl={asset.playbackUrl || ''}
