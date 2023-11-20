@@ -50,7 +50,7 @@ export async function UserNav() {
             <DropdownMenuItem>Gallery</DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem disabled>
             Billing
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
