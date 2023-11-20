@@ -36,7 +36,7 @@ export default function CuepointList({
           Notable events that occured in the video.
         </CardDescription>
       </CardHeader>
-      <CardContent className="w-full px-4">
+      <CardContent className="w-full px-6">
         {cuepoints.length === 0 ? (
           <p className="text-xs text-muted-foreground">No events tagged 😭</p>
         ) : (
@@ -59,10 +59,10 @@ export default function CuepointList({
                   id={`item_${i}`}
                   onClick={() => setActive(cuepoint)}
                 >
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 px-2">
                     <p className="text-base">{cuepoint.value.playCategory}</p>
                     <p className="text-xs text-muted-foreground">
-                      <span className="font-bold text-secondary-foreground cursor-pointer">
+                      <span className="text-secondary-foreground cursor-pointer">
                         {new Date(cuepoint.time * 1000)
                           .toISOString()
                           .slice(14, 22)}
