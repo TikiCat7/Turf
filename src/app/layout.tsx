@@ -1,5 +1,6 @@
 import { ClerkProvider, currentUser } from '@clerk/nextjs'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 
 import './globals.css'
 import { MainNav } from '@/components/main-nav'
@@ -47,6 +48,13 @@ export default async function RootLayout({
                   <div className="flex-col md:flex w-full">
                     <div className="border-b">
                       <div className="flex h-16 items-center px-[10%]">
+                        <Image
+                          className="mr-4"
+                          alt="turf app logo"
+                          src="/logo-no-background.png"
+                          width={75}
+                          height={30}
+                        />
                         <TeamSelection />
                         <MainNav className="mx-6" />
                         <div className="ml-auto flex items-center space-x-4">
