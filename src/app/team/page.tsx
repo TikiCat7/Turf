@@ -56,7 +56,9 @@ function MemberRow({ user }: { user: SelectUsers }) {
     <div className="flex items-center justify-between" key={user.clerkId}>
       <div className="flex items-center space-x-4">
         <Avatar className="w-8 h-8">
-          <AvatarImage src="https://avatar.vercel.sh/personal.png" />
+          <AvatarImage
+            src={user.avatarUrl ?? 'https://avatar.vercel.sh/personal.png'}
+          />
           <AvatarFallback />
         </Avatar>
         <div className="flex flex-col">
