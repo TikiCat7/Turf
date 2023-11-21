@@ -7,6 +7,8 @@ import { useTheme } from 'next-themes'
 
 import Globe from '@/components/magicui/globe'
 
+// test clerk prod
+
 export default function Page() {
   const { theme } = useTheme()
   return (
