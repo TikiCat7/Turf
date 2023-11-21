@@ -35,10 +35,6 @@ export default function Page() {
           afterSignInUrl={'/'}
           appearance={{
             baseTheme: theme === 'dark' ? dark : undefined,
-            elements: {
-              formButtonPrimary:
-                'bg-primary hover:bg-primary/50 text-sm normal-case',
-            },
           }}
         />
       </div>
