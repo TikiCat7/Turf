@@ -1,6 +1,7 @@
 import { auth, clerkClient } from '@clerk/nextjs'
 import { InstagramIcon } from 'lucide-react'
 import { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
@@ -41,7 +42,10 @@ async function getTeam() {
     where: (teams, { eq }) =>
       eq(teams.slug, clerkUser.sessionClaims?.org_slug ?? ''),
     with: {
-      videos: true,
+      videos: {
+        orderBy: (videos, { desc }) => [desc(videos.createdAt)],
+        limit: 3,
+      },
       usersToTeams: {
         with: {
           user: true,
@@ -123,6 +127,9 @@ export default async function Team() {
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         <Card className="col-span-1">
+          <CardHeader>
+            <CardTitle>Team Members</CardTitle>
+          </CardHeader>
           <Tabs defaultValue="members" className="">
             {isAdmin && (
               <TabsList className="mt-2 ml-2" defaultValue={'members'}>
@@ -192,6 +199,41 @@ export default async function Team() {
             )}
           </Tabs>
         </Card>
+        <Card className="col-span-1">
+          <CardHeader>
+            <CardTitle>Recent Videos</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 flex-col">
+            {team?.videos.length === 0 && (
+              <div>
+                <p className="text-muted-foreground">No Videos Found</p>
+              </div>
+            )}
+            {team?.videos.map((video, i) => (
+              <div
+                className="flex items-center space-x-2 justify-between"
+                key={i}
+              >
+                <div className="flex flex-col relative">
+                  <p className="text-muted-foreground">{video.videoName}</p>
+                  <Image
+                    priority={true}
+                    alt="video_thumbnail"
+                    src={`https://image.mux.com/${video.playbackUrl}/thumbnail.jpg?width=300&fit_mode=pad`}
+                    className="rounded-md"
+                    width={150}
+                    height={50}
+                  />
+                </div>
+                <Link href={`/assets/${video.assetId}`}>
+                  <Button size="sm" variant="outline">
+                    View
+                  </Button>
+                </Link>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
         <Card className="col-span-1 bg-black/10 opacity-50 pointer-events-none">
           <CardHeader>
             <CardTitle>Upcoming</CardTitle>
@@ -234,28 +276,6 @@ export default async function Team() {
                 </SelectContent>
               </Select>
             </div>
-          </CardContent>
-        </Card>
-        <Card className="col-span-1 bg-black/10 opacity-50 pointer-events-none">
-          <CardHeader>
-            <CardTitle>Results</CardTitle>
-            <CardDescription>4-1 win vs FC Uchiha 🔥</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4 flex-col">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div
-                className="flex items-center space-x-2 justify-between"
-                key={i}
-              >
-                <div className="flex items-center space-x-2">
-                  <p>Uchiha FC</p>
-                  <p className="font-bold text-xl">4-1</p>
-                </div>
-                <Button size="sm" variant="outline">
-                  View
-                </Button>
-              </div>
-            ))}
           </CardContent>
         </Card>
       </div>
