@@ -182,7 +182,8 @@ const Uploads = () => {
   return (
     <div className="flex-col py-16 w-4/5 space-y-4">
       <p className="text-4xl font-bold text-primary">Upload Video</p>
-      {user.user?.organizationMemberships[0].role === 'admin' ? (
+      {org.organization?.name &&
+      user.user?.organizationMemberships[0].role === 'admin' ? (
         <>
           <p className="text-muted-foreground py-4">
             Uploading video to {org.organization?.name}. While uploading, please

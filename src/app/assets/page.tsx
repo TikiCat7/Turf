@@ -43,7 +43,8 @@ async function getAssets() {
 
   if (!user || !user[0]) {
     console.log('corresponding user not found!')
-    throw new Error('corresponding user not found!')
+    // throw new Error('corresponding user not found!')
+    return []
   }
 
   if (isPersonal) {
