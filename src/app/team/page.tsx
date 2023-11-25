@@ -7,8 +7,9 @@ import { redirect } from 'next/navigation'
 
 import InviteForm from '@/components/invite-form'
 import RevokeForm from '@/components/revoke-form'
+import TimeAgoClient from '@/components/time-ago'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import {
   Card,
   CardContent,
@@ -129,6 +130,44 @@ export default async function Team() {
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         <Card className="col-span-1">
+          <CardHeader>
+            <CardTitle>Recent Videos</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 flex-col flex">
+            {team?.videos.length === 0 && (
+              <div>
+                <p className="text-muted-foreground">No Videos Found</p>
+              </div>
+            )}
+            {team?.videos.map((video, i) => (
+              <Link href={`/assets/${video.assetId}`}>
+                <div
+                  className="flex items-center space-x-2 justify-between"
+                  key={i}
+                >
+                  <div className="flex items-start justify-center relative space-x-4">
+                    <Image
+                      priority={true}
+                      alt="video_thumbnail"
+                      src={`https://image.mux.com/${video.playbackUrl}/thumbnail.jpg?width=300&fit_mode=pad`}
+                      className="rounded-md"
+                      width={150}
+                      height={50}
+                    />
+                    <div className="space-y-1">
+                      <Badge>{video.videoTypeEnum}</Badge>
+                      <p className="font-bold">{video.videoName}</p>
+                      <p className="text-xs text-muted-foreground">
+                        <TimeAgoClient date={video.videoDate} locale="en-US" />
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </CardContent>
+        </Card>
+        <Card className="col-span-1">
           <Tabs defaultValue="members" className="">
             {isAdmin && (
               <TabsList className="mt-6 ml-6" defaultValue={'members'}>
@@ -149,7 +188,7 @@ export default async function Team() {
                   {team?.usersToTeams.length} members
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 overflow-y-scroll max-h-[200px]">
+              <CardContent className="space-y-4 overflow-y-scroll max-h-[300px]">
                 {team?.usersToTeams.map((user, i) => (
                   <MemberRow user={user.user} key={i} />
                 ))}
@@ -197,41 +236,6 @@ export default async function Team() {
               </>
             )}
           </Tabs>
-        </Card>
-        <Card className="col-span-1">
-          <CardHeader>
-            <CardTitle>Recent Videos</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 flex-col">
-            {team?.videos.length === 0 && (
-              <div>
-                <p className="text-muted-foreground">No Videos Found</p>
-              </div>
-            )}
-            {team?.videos.map((video, i) => (
-              <div
-                className="flex items-center space-x-2 justify-between"
-                key={i}
-              >
-                <div className="flex flex-col relative">
-                  <p className="text-muted-foreground">{video.videoName}</p>
-                  <Image
-                    priority={true}
-                    alt="video_thumbnail"
-                    src={`https://image.mux.com/${video.playbackUrl}/thumbnail.jpg?width=300&fit_mode=pad`}
-                    className="rounded-md"
-                    width={150}
-                    height={50}
-                  />
-                </div>
-                <Link href={`/assets/${video.assetId}`}>
-                  <Button size="sm" variant="outline">
-                    View
-                  </Button>
-                </Link>
-              </div>
-            ))}
-          </CardContent>
         </Card>
         <Card className="col-span-1 bg-black/10 opacity-50 pointer-events-none">
           <CardHeader>
