@@ -36,6 +36,7 @@ export const teams = pgTable('teams', {
   slug: text('slug').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   logo: text('logo'),
+  description: text('description'),
 })
 
 export const teamsRelation = relations(teams, ({ many }) => ({

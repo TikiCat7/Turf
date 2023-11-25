@@ -122,17 +122,16 @@ export default async function Team() {
         </div>
       </div>
       <p className="text-muted-foreground py-4">
-        {team?.name} is an amateur team that plays in Singapore.
+        {team?.description
+          ? team?.description
+          : `${team?.name} is an amateur team that plays in Singapore.`}
       </p>
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         <Card className="col-span-1">
-          <CardHeader>
-            <CardTitle>Team Members</CardTitle>
-          </CardHeader>
           <Tabs defaultValue="members" className="">
             {isAdmin && (
-              <TabsList className="mt-2 ml-2" defaultValue={'members'}>
+              <TabsList className="mt-6 ml-6" defaultValue={'members'}>
                 <TabsTrigger value="members">Members</TabsTrigger>
                 <TabsTrigger value="invite">Invite</TabsTrigger>
                 <TabsTrigger value="pending">
@@ -143,7 +142,7 @@ export default async function Team() {
               </TabsList>
             )}
 
-            <TabsContent value="members" className="mt-0">
+            <TabsContent value="members" className="mt-2">
               <CardHeader>
                 <CardTitle>Members</CardTitle>
                 <CardDescription>

@@ -78,6 +78,7 @@ export async function POST(req: Request): Promise<Response> {
           clerkId: data.id,
           name: data.name,
           slug: data.slug!,
+          description: (data.public_metadata?.description as string) ?? '',
         })
         break
       case 'organization.deleted':
