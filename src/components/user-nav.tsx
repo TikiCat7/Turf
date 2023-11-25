@@ -75,7 +75,7 @@ export async function UserNav() {
           </DropdownMenuGroup>
           <DropdownMenuGroup>
             <Link href="/create-team" className="flex items-center">
-              <DropdownMenuItem>
+              <DropdownMenuItem className="w-full">
                 <PlusCircledIcon className="mr-2 h-5 w-5" />
                 <p>Create team</p>
               </DropdownMenuItem>
