@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { Metadata, ResolvingMetadata } from 'next'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -17,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Skeleton } from '@/components/ui/skeleton'
 import VideoSection from '@/components/video-section'
 import { db } from '@/lib/db'
 
@@ -84,7 +86,15 @@ export default async function AssetsPage({
 }: {
   params: { id: string }
 }) {
-  const asset = await getAsset(params.id)
+  return (
+    <Suspense fallback={<AssetLoading />}>
+      <AssetInfo id={params.id} />
+    </Suspense>
+  )
+}
+
+async function AssetInfo(props: { id: string }) {
+  const asset = await getAsset(props.id)
   const user = auth()
 
   if (asset?.clerkTeamId !== user.sessionClaims?.org_id) {
@@ -156,6 +166,36 @@ export default async function AssetsPage({
       ) : (
         <p>Video not found</p>
       )}
+    </section>
+  )
+}
+
+function AssetLoading() {
+  return (
+    <section className="w-full p-8">
+      <div className="flex justify-between items-start">
+        <div className="space-y-2 pb-2">
+          <Skeleton className="w-[80px] h-4 rounded-md" />
+          <Skeleton className="w-[100px] h-4" />
+          <Skeleton className="w-[100px] h-4" />
+          <Skeleton className="w-[100px] h-4" />
+        </div>
+        <div className="flex space-x-1 py-2 px-4 h-[36px] w-[48px] items-center justify-center">
+          <Skeleton className="w-[4px] h-[4px] rounded-full" />
+          <Skeleton className="w-[4px] h-[4px] rounded-full" />
+          <Skeleton className="w-[4px] h-[4px] rounded-full" />
+        </div>
+      </div>
+      <div className="grid grid-cols-10 gap-4 mt-4">
+        <div className="lg:col-span-7 col-span-10">
+          <Skeleton className="w-full h-[250px] md:h-[519px] lg:h-[420px]" />
+          <div className="flex space-x-2 mt-2">
+            <Skeleton className="w-[89px] h-9" />
+            <Skeleton className="w-[50px] h-9" />
+          </div>
+        </div>
+        <Skeleton className="col-span-10 lg:col-span-3 h-[160px] lg:h-[210px]" />
+      </div>
     </section>
   )
 }
