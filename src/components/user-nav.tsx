@@ -1,7 +1,9 @@
-import { currentUser } from '@clerk/nextjs'
+import { auth, clerkClient, currentUser } from '@clerk/nextjs'
+import { PlusCircledIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 
 import SignoutButton from '@/components/signout-button'
+import TeamList from '@/components/team-list'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,8 +17,25 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
+async function getTeams() {
+  const user = auth()
+  const memberships = await clerkClient.users.getOrganizationMembershipList({
+    userId: user.userId!,
+  })
+
+  return memberships.map((team) => {
+    return {
+      id: team.organization.id,
+      label: team.organization.name,
+      value: team.organization.slug,
+      imageUrl: team.organization.imageUrl,
+    }
+  })
+}
+
 export async function UserNav() {
   const user = await currentUser()
+  const teams = await getTeams()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -50,6 +69,19 @@ export async function UserNav() {
             <DropdownMenuItem>Gallery</DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator />
+          <DropdownMenuGroup className="border-none">
+            <DropdownMenuLabel>My Teams</DropdownMenuLabel>
+            <TeamList teams={teams} />
+          </DropdownMenuGroup>
+          <DropdownMenuGroup>
+            <Link href="/create-team" className="flex items-center">
+              <DropdownMenuItem>
+                <PlusCircledIcon className="mr-2 h-5 w-5" />
+                <p>Create team</p>
+              </DropdownMenuItem>
+            </Link>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
           <DropdownMenuItem disabled>
             Billing
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
@@ -61,7 +93,6 @@ export async function UserNav() {
             </DropdownMenuItem>
           </Link>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
         <SignoutButton />
       </DropdownMenuContent>
     </DropdownMenu>

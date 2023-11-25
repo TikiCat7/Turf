@@ -67,7 +67,7 @@ export default function TeamSwitcher({ className, teams }: TeamSwitcherProps) {
   return (
     <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
+        <PopoverTrigger asChild className="hidden md:flex">
           <Button
             variant="outline"
             role="combobox"
@@ -97,40 +97,40 @@ export default function TeamSwitcher({ className, teams }: TeamSwitcherProps) {
             <CommandList>
               <CommandInput placeholder="Search team..." />
               <CommandEmpty>No team found.</CommandEmpty>
-              <CommandGroup heading={'Personal'} key={'personal'}>
-                <CommandItem
-                  key={'personal'}
-                  className="text-sm"
-                  onSelect={() => {
-                    setSelectedTeam({
-                      id: user.user?.id ?? '',
-                      label: user.user?.firstName + ' ' + user.user?.lastName,
-                      value: 'personal',
-                      imageUrl: user.user?.imageUrl ?? '',
-                    })
-                    setOpen(false)
-                    setActive!({ organization: null })
-                  }}
-                >
-                  <Avatar className="mr-2 h-5 w-5">
-                    <AvatarImage
-                      src={`https://avatar.vercel.sh/personal.png`}
-                      alt={'personal'}
-                      // className="grayscale"
-                    />
-                    <AvatarFallback>SC</AvatarFallback>
-                  </Avatar>
-                  {user.user?.firstName + ' ' + user.user?.lastName}
-                  <CheckIcon
-                    className={cn(
-                      'ml-auto h-4 w-4',
-                      selectedTeam.value === 'personal'
-                        ? 'opacity-100'
-                        : 'opacity-0'
-                    )}
-                  />
-                </CommandItem>
-              </CommandGroup>
+              {/* <CommandGroup heading={'Personal'} key={'personal'}> */}
+              {/*   <CommandItem */}
+              {/*     key={'personal'} */}
+              {/*     className="text-sm" */}
+              {/*     onSelect={() => { */}
+              {/*       setSelectedTeam({ */}
+              {/*         id: user.user?.id ?? '', */}
+              {/*         label: user.user?.firstName + ' ' + user.user?.lastName, */}
+              {/*         value: 'personal', */}
+              {/*         imageUrl: user.user?.imageUrl ?? '', */}
+              {/*       }) */}
+              {/*       setOpen(false) */}
+              {/*       setActive!({ organization: null }) */}
+              {/*     }} */}
+              {/*   > */}
+              {/*     <Avatar className="mr-2 h-5 w-5"> */}
+              {/*       <AvatarImage */}
+              {/*         src={`https://avatar.vercel.sh/personal.png`} */}
+              {/*         alt={'personal'} */}
+              {/*         // className="grayscale" */}
+              {/*       /> */}
+              {/*       <AvatarFallback>SC</AvatarFallback> */}
+              {/*     </Avatar> */}
+              {/*     {user.user?.firstName + ' ' + user.user?.lastName} */}
+              {/*     <CheckIcon */}
+              {/*       className={cn( */}
+              {/*         'ml-auto h-4 w-4', */}
+              {/*         selectedTeam.value === 'personal' */}
+              {/*           ? 'opacity-100' */}
+              {/*           : 'opacity-0' */}
+              {/*       )} */}
+              {/*     /> */}
+              {/*   </CommandItem> */}
+              {/* </CommandGroup> */}
               <CommandGroup heading="Team">
                 {teams.map((team) => (
                   <CommandItem
