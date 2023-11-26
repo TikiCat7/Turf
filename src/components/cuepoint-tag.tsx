@@ -126,6 +126,8 @@ export default function CuepointTag({
 
   requestAnimationFrame(updateCurrentTime)
 
+  console.log(player?.user.id)
+
   return (
     <Card>
       <CardContent className="p-4">
@@ -241,7 +243,7 @@ export default function CuepointTag({
             name="playerId"
             hidden
             readOnly
-            value={player?.userId}
+            value={player?.user.clerkId}
           />
           <SubmitButton />
         </form>
