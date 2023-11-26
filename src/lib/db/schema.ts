@@ -25,6 +25,7 @@ export const usersRelation = relations(users, ({ many }) => ({
   videos: many(videos),
   uploads: many(uploads),
   cuepoints: many(cuepoints),
+  usersToSessions: many(sessionAttendees),
 }))
 
 export type SelectUsers = InferSelectModel<typeof users>
@@ -136,6 +137,7 @@ export const videos = pgTable('videos', {
   teamId: uuid('team_id')
     .notNull()
     .references(() => teams.id),
+  sessionId: uuid('session_id').references(() => sessions.id),
   duration: real('duration'),
   quality: text('quality'),
   dimensions: text('dimension'),
@@ -176,6 +178,10 @@ export const videoRelations = relations(videos, ({ one, many }) => ({
     references: [uploads.uploadId],
   }),
   cuepoints: many(cuepoints),
+  session: one(sessions, {
+    fields: [videos.sessionId],
+    references: [sessions.id],
+  }),
 }))
 
 export const playCategory = pgEnum('playCategory', [
@@ -214,3 +220,94 @@ export const cuepointsRelations = relations(cuepoints, ({ one }) => ({
 }))
 
 export type Cuepoints = InferSelectModel<typeof cuepoints>
+
+export const sessionCategory = pgEnum('sessionCategory', [
+  'match',
+  'friendly',
+  'training',
+  'recreational',
+  'camp',
+  'meeting',
+  'other',
+])
+
+export const sessionStatus = pgEnum('sessionStatus', [
+  'scheduled',
+  'confirmed',
+  'in_progress',
+  'cancelled',
+  'completed',
+])
+
+export type SelectSessions = InferSelectModel<typeof sessions>
+
+export const sessions = pgTable('session', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  session_name: text('session_name').notNull(),
+  session_description: text('session_description'),
+  teamId: text('team_id').references(() => teams.clerkId),
+  organiserId: text('organiser_id').references(() => users.clerkId),
+  session_start_date: timestamp('session_start_date').notNull(),
+  session_end_date: timestamp('session_end_date').notNull(),
+  // startTime: timestamp('start_time').notNull(),
+  // endTime: timestamp('end_time').notNull(),
+  location: text('location').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+  sessionStatus: sessionStatus('session_status').notNull().default('scheduled'),
+  sessionCategory: sessionCategory('session_category').notNull(),
+})
+
+export const sessionRelations = relations(sessions, ({ many, one }) => ({
+  usersToSessions: many(sessionAttendees),
+  videos: many(videos),
+  team: one(teams, {
+    fields: [sessions.teamId],
+    references: [teams.clerkId],
+  }),
+  organiser: one(users, {
+    fields: [sessions.organiserId],
+    references: [users.clerkId],
+  }),
+}))
+
+export const sessionIntentionStatus = pgEnum('sessionIntentionStatus', [
+  'undecided',
+  'tentative',
+  'attending',
+  'not_attending',
+])
+
+export const sessionAttendees = pgTable(
+  'sessionAttendees',
+  {
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.clerkId),
+    sessionId: uuid('session_id')
+      .notNull()
+      .references(() => sessions.id),
+    sessionIntentionStatus: sessionIntentionStatus('session_intention_status')
+      .notNull()
+      .default('undecided'),
+    updatedAt: timestamp('updated_at').notNull().defaultNow(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+  },
+  (t) => ({
+    pk: primaryKey(t.userId, t.sessionId),
+  })
+)
+
+export const sessionAttendeesRelations = relations(
+  sessionAttendees,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [sessionAttendees.userId],
+      references: [users.clerkId],
+    }),
+    session: one(sessions, {
+      fields: [sessionAttendees.sessionId],
+      references: [sessions.id],
+    }),
+  })
+)

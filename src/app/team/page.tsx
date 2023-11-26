@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation'
 
 import InviteForm from '@/components/invite-form'
 import RevokeForm from '@/components/revoke-form'
+import SessionCreationForm from '@/components/session-creation-form'
 import TimeAgoClient from '@/components/time-ago'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -139,12 +140,9 @@ export default async function Team() {
                 <p className="text-muted-foreground">No Videos Found</p>
               </div>
             )}
-            {team?.videos.map((video, i) => (
-              <Link href={`/assets/${video.assetId}`}>
-                <div
-                  className="flex items-center space-x-2 justify-between"
-                  key={i}
-                >
+            {team?.videos.map((video) => (
+              <Link href={`/assets/${video.assetId}`} key={video.id}>
+                <div className="flex items-center space-x-2 justify-between">
                   <div className="flex items-start justify-center relative space-x-4">
                     <Image
                       priority={true}
@@ -237,7 +235,7 @@ export default async function Team() {
             )}
           </Tabs>
         </Card>
-        <Card className="col-span-1 bg-black/10 opacity-50 pointer-events-none">
+        <Card className="col-span-1">
           <CardHeader>
             <CardTitle>Upcoming</CardTitle>
             <CardDescription>
@@ -279,6 +277,7 @@ export default async function Team() {
                 </SelectContent>
               </Select>
             </div>
+            <SessionCreationForm />
           </CardContent>
         </Card>
       </div>
