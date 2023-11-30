@@ -35,7 +35,7 @@ export default function ScheduleCard() {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, margin: '-400px' }}
     >
       <Card className="rounded-2xl shadow-2xl flex flex-col w-full max-w-[400px]">
         <CardHeader className="text-xl lg:text-2xl font-bold px-6 py-4">

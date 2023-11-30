@@ -19,8 +19,10 @@ export default function HeaderLeftContent() {
         scheduling and payments, to watching videos, Turf handles everything -
         so you can focus on the game.
       </p>
-      <div className="flex text-xl font-bold text-white rounded-full cursor-pointer p-2 text-center items-center justify-start mt-4">
-        <p className="bg-[#006E59] p-4 rounded-full">Join the Waitlist</p>
+      <div className="flex lg:text-xl font-bold text-white rounded-full cursor-pointer text-center items-center justify-center lg:justify-start mt-4">
+        <p className="bg-[#006E59] p-2 lg:p-4 rounded-full">
+          Join the Waitlist
+        </p>
       </div>
     </motion.div>
   )

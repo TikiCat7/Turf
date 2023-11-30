@@ -58,7 +58,7 @@ export default async function Home() {
         </div>
         <SocialContent />
         {/* <div className="bg-header-pattern h-[200px] my-10" /> */}
-        <div className="px-10 mt-[100px] flex justify-center max-w-6xl w-full flex-col md:flex-row space-y-8 md:space-y-0">
+        <div className="px-10 mt-[50px] lg:mt-[100px] flex justify-center max-w-6xl w-full flex-col md:flex-row space-y-8 md:space-y-0">
           <div className="flex flex-col w-full">
             <h2 className="text-4xl font-bold text-turf-light dark:text-turf-dark">
               Simplify scheduling
