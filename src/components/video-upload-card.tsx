@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge'
 
 export default function VideoUploadCard() {
   return (
-    <div className="flex items-center flex-col">
+    <div className="flex items-center flex-col mt-4">
       <motion.div
         className="flex items-center rounded-2xl p-4 shadow-2xl space-x-1 justify-center h-[40px] text-sm border mb-4 w-[300px]"
         initial={{ opacity: 0, y: 20 }}
@@ -41,7 +41,7 @@ export default function VideoUploadCard() {
         {/* <video src="/header-goal.mp4" autoPlay muted loop /> */}
         <div className="flex flex-col">
           <MuxPlayer
-            className="overflow-hidden rounded-md aspect-[16/9] max-w-[500px] lg:w-[300px]"
+            className="overflow-hidden rounded-md aspect-[16/9] lg:w-[300px]"
             accent-color="#44997F"
             muted
             loop
@@ -57,7 +57,7 @@ export default function VideoUploadCard() {
         </div>
         <div className="flex flex-col">
           <MuxPlayer
-            className="overflow-hidden rounded-md aspect-[16/9] max-w-[500px] lg:w-[300px]"
+            className="overflow-hidden rounded-md aspect-[16/9] lg:w-[300px]"
             accent-color="#44997F"
             muted
             loop
@@ -73,8 +73,9 @@ export default function VideoUploadCard() {
         </div>
         <div className="flex flex-col">
           <MuxPlayer
-            className="overflow-hidden rounded-md aspect-[16/9] max-w-[500px] lg:w-[300px]"
+            className="overflow-hidden rounded-md aspect-[16/9] lg:w-[300px]"
             streamType="on-demand"
+            accent-color="#44997F"
             muted
             loop
             autoPlay

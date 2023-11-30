@@ -38,16 +38,18 @@ export default async function Home() {
       <div className="p-2 md:p-8 w-full items-center justify-center flex flex-col">
         <div className="flex md:px-20 px-8 py-2 md:py-2 justify-between items-center w-full max-w-5xl item-center">
           <div className="h-[50px] w-[50px] md:h-[70px] md:w-[70px] lg:w-[120px] flex items-center justify-between">
-            <Image
-              alt="turf logo"
-              src="/logo-no-background.png"
-              width={120}
-              height={60}
-              priority
-            />
+            <Link href="/">
+              <Image
+                alt="turf logo"
+                src="/logo-no-background.png"
+                width={120}
+                height={60}
+                priority
+              />
+            </Link>
           </div>
           <Link href="/sign-in">
-            <p className="md:block text-[#009B7D] font-bold lg:text-xl cursor-pointer hover:bg-[#006E59] hover:rounded-full p-4 hover:text-white">
+            <p className="md:block text-[#009B7D] font-bold lg:text-xl cursor-pointer hover:bg-[#006E59] hover:rounded-full p-2 lg:p-4 hover:text-white">
               Sign In
             </p>
           </Link>

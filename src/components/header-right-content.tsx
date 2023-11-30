@@ -12,7 +12,7 @@ export default function HeaderRightContent() {
       transition={{ duration: 0.3 }}
     >
       <div className="rounded-2xl overflow-hidden max-w-[650px] shadow-2xl">
-        <video src="/header-goal.mp4" autoPlay muted loop controls />
+        <video src="/header-goal.mp4" autoPlay muted loop />
       </div>
       <motion.div
         className="text-center flex items-center space-x-1 justify-center"
