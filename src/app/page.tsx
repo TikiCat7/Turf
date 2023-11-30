@@ -34,7 +34,7 @@ export default async function Home() {
 
   // TODO: this page should be the landing page for new users. guide them on creating a new team or show them how to upload a video for personal gallery
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center w-full">
       <div className="p-2 md:p-8 w-full items-center justify-center flex flex-col">
         <div className="flex md:px-20 px-8 py-2 md:py-2 justify-between items-center w-full max-w-5xl item-center">
           <div className="h-[50px] w-[50px] md:h-[70px] md:w-[70px] lg:w-[120px] flex items-center justify-between">
