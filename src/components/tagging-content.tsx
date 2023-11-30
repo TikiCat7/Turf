@@ -26,6 +26,7 @@ export default function TaggingContent() {
             muted
             autoPlay
             loop
+            playsInline
             className="rounded-md overflow-hidden lg:max-w-[600px]"
           />
           <p className="text-sm text-muted-foreground mt-2">
@@ -38,6 +39,7 @@ export default function TaggingContent() {
             muted
             autoPlay
             loop
+            playsInline
             className="rounded-md overflow-hidden lg:max-w-[600px]"
           />
           <p className="text-sm text-muted-foreground mt-2">
