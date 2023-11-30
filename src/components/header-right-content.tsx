@@ -11,9 +11,9 @@ export default function HeaderRightContent() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <motion.div className="rounded-2xl overflow-hidden max-w-[650px] shadow-2xl">
-        <video src="/header-goal.mp4" autoPlay muted loop />
-      </motion.div>
+      <div className="rounded-2xl overflow-hidden max-w-[650px] shadow-2xl">
+        <video src="/header-goal.mp4" autoPlay muted loop controls />
+      </div>
       <motion.div
         className="text-center flex items-center space-x-1 justify-center"
         initial={{ opacity: 0, y: 0, position: 'absolute', bottom: 0 }}

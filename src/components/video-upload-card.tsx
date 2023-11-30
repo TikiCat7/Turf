@@ -42,7 +42,6 @@ export default function VideoUploadCard() {
         <div className="flex flex-col">
           <MuxPlayer
             className="overflow-hidden rounded-md aspect-[16/9] max-w-[500px] lg:w-[300px]"
-            streamType="on-demand"
             accent-color="#44997F"
             muted
             loop
@@ -59,7 +58,6 @@ export default function VideoUploadCard() {
         <div className="flex flex-col">
           <MuxPlayer
             className="overflow-hidden rounded-md aspect-[16/9] max-w-[500px] lg:w-[300px]"
-            streamType="on-demand"
             accent-color="#44997F"
             muted
             loop
@@ -77,7 +75,6 @@ export default function VideoUploadCard() {
           <MuxPlayer
             className="overflow-hidden rounded-md aspect-[16/9] max-w-[500px] lg:w-[300px]"
             streamType="on-demand"
-            accent-color="#44997F"
             muted
             loop
             autoPlay
