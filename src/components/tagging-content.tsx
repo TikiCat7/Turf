@@ -6,7 +6,7 @@ import React from 'react'
 export default function TaggingContent() {
   return (
     <motion.div
-      className="px-10 mt-[50px] flex flex-col justify-center"
+      className="px-10 mt-[50px] flex flex-col justify-center w-full max-w-6xl"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
@@ -28,7 +28,7 @@ export default function TaggingContent() {
             loop
             className="rounded-md overflow-hidden lg:max-w-[600px]"
           />
-          <p className="font-semibold text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground mt-2">
             Tag plays and players
           </p>
         </div>
@@ -40,7 +40,7 @@ export default function TaggingContent() {
             loop
             className="rounded-md overflow-hidden lg:max-w-[600px]"
           />
-          <p className="font-semibold text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground mt-2">
             Timeline and event list for easy navigation
           </p>
         </div>

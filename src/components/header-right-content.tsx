@@ -6,7 +6,7 @@ import React from 'react'
 export default function HeaderRightContent() {
   return (
     <motion.div
-      className="items-center flex flex-col w-full relative"
+      className="items-center flex flex-col relative max-w-[500px]"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}

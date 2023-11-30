@@ -15,6 +15,8 @@ import VideoUploadCard from '@/components/video-upload-card'
 
 export const metadata: Metadata = {
   title: 'Turf',
+  creator: '@_WataruIkeda',
+  twitter: { images: [{ url: '/', width: 1200, height: 600 }] },
 }
 export default async function Home() {
   const user = await currentUser()
@@ -33,8 +35,8 @@ export default async function Home() {
   // TODO: this page should be the landing page for new users. guide them on creating a new team or show them how to upload a video for personal gallery
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="p-2 md:p-8 w-screen">
-        <div className="flex md:px-20 px-8 py-2 md:py-2 justify-between items-center w-full">
+      <div className="p-2 md:p-8 w-screen items-center justify-center flex flex-col">
+        <div className="flex md:px-20 px-8 py-2 md:py-2 justify-between items-center w-full max-w-5xl item-center">
           <div className="h-[50px] w-[50px] md:h-[70px] md:w-[70px] lg:w-[120px] flex items-center justify-between">
             <Image
               alt="turf logo"
@@ -50,36 +52,41 @@ export default async function Home() {
             </p>
           </Link>
         </div>
-        <div className="md:mt-4 flex items-center flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8 px-10 lg:pt-[80px]">
+        <div className="md:mt-4 flex items-center flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8 px-10 lg:pt-[80px] w-full justify-center">
           <HeaderLeftContent />
           <HeaderRightContent />
         </div>
         <SocialContent />
         {/* <div className="bg-header-pattern h-[200px] my-10" /> */}
-        <div className="px-10 mt-[100px] flex flex-col justify-center">
-          <h2 className="text-4xl font-bold text-turf-light dark:text-turf-dark">
-            Simplify scheduling
-          </h2>
-          <p className="text-muted-foreground lg:text-xl font-medium py-2">
-            Create upcoming schedules for your team, track participation and
-            more.
-          </p>
-          <div className="flex items-center w-full justify-center p-8 space-x-8">
+        <div className="px-10 mt-[100px] flex justify-center max-w-6xl w-full flex-col md:flex-row space-y-8 md:space-y-0">
+          <div className="flex flex-col w-full">
+            <h2 className="text-4xl font-bold text-turf-light dark:text-turf-dark">
+              Simplify scheduling
+            </h2>
+            <p className="text-muted-foreground lg:text-xl font-medium py-2">
+              Create upcoming schedules for your team, track participation and
+              more.
+            </p>
+          </div>
+          <div className="flex items-center w-full justify-center space-x-8">
             <ScheduleCard />
           </div>
         </div>
-        <div className="px-10 mt-[50px]">
-          <h2 className="text-4xl font-bold text-turf-light dark:text-turf-dark">
-            Automate payment collection
-          </h2>
-          <p className="text-muted-foreground lg:text-xl font-medium py-2">
-            Create payment requests from team members and track the settlement.
-          </p>
-          <div className="flex items-center w-full justify-center space-x-8">
+        <div className="px-10 mt-[50px] items-start flex max-w-6xl w-full flex-col md:flex-row space-y-8 md:space-y-0">
+          <div className="flex flex-col h-full justify-start flex-1 w-full pt-6">
+            <h2 className="text-4xl font-bold text-turf-light dark:text-turf-dark">
+              Automate payment collection
+            </h2>
+            <p className="text-muted-foreground lg:text-xl font-medium py-2">
+              Create payment requests from team members and track the
+              settlement.
+            </p>
+          </div>
+          <div className="flex flex-1 items-center w-full justify-center space-x-8">
             <PaymentCollectionCard />
           </div>
         </div>
-        <div className="px-10 mt-[50px] flex flex-col justify-center">
+        <div className="px-10 mt-[50px] flex flex-col justify-center max-w-6xl w-full">
           <h2 className="text-4xl font-bold text-turf-light dark:text-turf-dark">
             Create a digital gallery
           </h2>
@@ -87,13 +94,13 @@ export default async function Home() {
             Dedicated video hosting so you can create a digital gallery for your
             team.
           </p>
-          <div className="flex items-center w-full justify-center p-8 space-x-8">
+          <div className="flex items-center w-full justify-center space-x-8">
             <VideoUploadCard />
           </div>
         </div>
         <TaggingContent />
-        <div className="flex justify-between p-8 items-center">
-          <p className="text-muted-foreground">Turf Inc. 2023</p>
+        <div className="flex justify-between p-8 items-center space-x-4">
+          <p className="text-muted-foreground">Turf 2023</p>
           <div>
             <ModeToggle />
           </div>

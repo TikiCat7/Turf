@@ -11,14 +11,14 @@ import { Card } from './ui/card'
 export default function PaymentCollectionCard() {
   return (
     <motion.div
-      className=""
+      className="flex w-full max-w-[400px] items-center justify-center"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
       viewport={{ once: true, margin: '-200px' }}
     >
-      <Card className="rounded-2xl max-w-[400px] p-8 shadow-2xl">
-        <p className="text-3xl font-bold">Match Fee Collection</p>
+      <Card className="rounded-2xl flex flex-col w-full p-8 shadow-2xl">
+        <p className="text-xl lg:text-2xl font-bold">Match Fee Collection</p>
         <div className="flex items-center">
           <p className="font-bold text-2xl">$230</p>
           <p className="text-muted-foreground mt-1 ml-1">(12/15)</p>

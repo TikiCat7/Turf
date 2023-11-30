@@ -70,7 +70,7 @@ const TeamCard = ({
 
 export default function SocialContent() {
   return (
-    <div className="relative flex w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-lg py-8 lg:mt-[50px]">
+    <div className="relative flex flex-col items-center justify-center gap-4 overflow-hidden rounded-lg py-8 lg:mt-[50px] lg:max-w-6xl w-full">
       <div className="flex items-center flex-col md:flex-row">
         <div className="flex items-center">
           <NumberTicker

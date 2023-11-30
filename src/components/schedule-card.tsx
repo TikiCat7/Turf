@@ -31,20 +31,20 @@ export default function ScheduleCard() {
 
   return (
     <motion.div
-      className="bg-card flex items-center"
+      className="bg-card flex items-center max-w-[600px] w-full justify-center"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
       viewport={{ once: true }}
     >
-      <Card className="rounded-2xl max-w-[420px] shadow-2xl">
-        <CardHeader className="text-2xl font-bold px-6 py-4">
+      <Card className="rounded-2xl shadow-2xl flex flex-col w-full max-w-[400px]">
+        <CardHeader className="text-xl lg:text-2xl font-bold px-6 py-4">
           <div className="flex items-center space-x-1">
             <CalendarDays size={20} />
             <p>Upcoming Session</p>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-col">
           <div className="flex items-center">
             <Avatar className="mr-1 h-5 w-5">
               <AvatarImage src={'https://avatar.vercel.sh/personal.png'} />
@@ -62,7 +62,7 @@ export default function ScheduleCard() {
               </p>
             </div>
           </div>
-          <div className="mt-4 flex w-full justify-between items-center">
+          <div className="mt-4 flex w-full justify-between items-start flex-col lg:flex-row space-y-4">
             <div className="flex flex-col">
               <div className="flex items-center space-x-1">
                 <motion.p className="text-sm font-medium text-[#7A7A7A] pb-1">
