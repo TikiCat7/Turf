@@ -14,7 +14,7 @@ import { ModeToggle } from '@/components/theme-toggle'
 import VideoUploadCard from '@/components/video-upload-card'
 
 export const metadata: Metadata = {
-  title: 'Create Team',
+  title: 'Turf',
 }
 export default async function Home() {
   const user = await currentUser()
