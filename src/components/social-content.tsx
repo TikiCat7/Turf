@@ -1,3 +1,6 @@
+'use client'
+
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 import React from 'react'
 
@@ -70,7 +73,13 @@ const TeamCard = ({
 
 export default function SocialContent() {
   return (
-    <div className="relative flex flex-col items-center justify-center gap-4 overflow-hidden rounded-lg py-8 lg:mt-[50px] lg:max-w-6xl w-full">
+    <motion.div
+      className="relative flex flex-col items-center justify-center gap-4 overflow-hidden rounded-lg py-8 lg:mt-[50px] lg:max-w-6xl w-full"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.6 }}
+      viewport={{ once: true }}
+    >
       <div className="flex items-center flex-col md:flex-row">
         <div className="flex items-center">
           <NumberTicker
@@ -99,6 +108,6 @@ export default function SocialContent() {
       </Marquee>
       <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
       <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
-    </div>
+    </motion.div>
   )
 }

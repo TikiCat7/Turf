@@ -14,7 +14,7 @@ export default function VideoUploadCard() {
         className="flex items-center rounded-2xl p-4 shadow-2xl space-x-1 justify-center h-[40px] text-sm border mb-4 w-[300px]"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-250px' }}
+        viewport={{ once: true, margin: '-100px' }}
         transition={{
           duration: 0.5,
           delay: 0.3,
