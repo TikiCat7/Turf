@@ -39,6 +39,7 @@
     "dotenv": "^16.3.1",
     "drizzle-orm": "^0.28.6",
     "drizzle-zod": "^0.5.1",
+    "framer-motion": "^10.16.5",
     "javascript-time-ago": "^2.5.9",
     "lucide-react": "^0.287.0",
     "next": "13.5.6",
