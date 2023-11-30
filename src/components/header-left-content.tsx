@@ -21,7 +21,7 @@ export default function HeaderLeftContent() {
       </p>
       <div className="flex lg:text-xl font-bold text-white rounded-full cursor-pointer text-center items-center justify-center lg:justify-start mt-4">
         <p className="bg-[#006E59] p-2 lg:p-4 rounded-full">
-          Join the Waitlist
+          Join the waitlist
         </p>
       </div>
     </motion.div>
