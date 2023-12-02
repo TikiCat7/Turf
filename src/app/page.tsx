@@ -17,7 +17,6 @@ export const metadata: Metadata = {
   title: 'Turf',
   creator: '@_WataruIkeda',
   twitter: {
-    images: [{ url: '/logo-no-background.png', width: 450, height: 150 }],
     creator: '@_WataruIkeda',
     title: 'Turf',
     description:
