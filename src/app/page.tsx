@@ -20,6 +20,10 @@ export const metadata: Metadata = {
     'Turf is a platform for sports teams to manage schedules, payments, and more.',
   openGraph: {
     images: [{ url: '/opengraph-image.png' }],
+    title: 'Turf',
+    description:
+      'Turf is a platform for sports teams to manage schedules, payments, and more.',
+    creators: ['@_WataruIkeda'],
   },
   twitter: {
     images: [{ url: '/opengraph-image.png' }],
