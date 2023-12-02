@@ -17,7 +17,11 @@ export const metadata: Metadata = {
   title: 'Turf',
   creator: '@_WataruIkeda',
   twitter: {
-    images: [{ url: '/logo-no-background.png', width: 1200, height: 600 }],
+    images: [{ url: '/logo-no-background.png', width: 450, height: 150 }],
+    creator: '@_WataruIkeda',
+    title: 'Turf',
+    description:
+      'Turf is a platform for sports teams to manage schedules, payments, and more.',
   },
 }
 export default async function Home() {
