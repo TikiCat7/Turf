@@ -16,6 +16,11 @@ import VideoUploadCard from '@/components/video-upload-card'
 export const metadata: Metadata = {
   title: 'Turf',
   creator: '@_WataruIkeda',
+  description:
+    'Turf is a platform for sports teams to manage schedules, payments, and more.',
+  openGraph: {
+    images: [{ url: '/opengraph-image.png' }],
+  },
   twitter: {
     images: [{ url: '/opengraph-image.png' }],
     creator: '@_WataruIkeda',
