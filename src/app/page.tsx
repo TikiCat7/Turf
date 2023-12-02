@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   title: 'Turf',
   creator: '@_WataruIkeda',
   twitter: {
+    images: [{ url: '/opengraph-image.png' }],
     creator: '@_WataruIkeda',
     title: 'Turf',
     description:
