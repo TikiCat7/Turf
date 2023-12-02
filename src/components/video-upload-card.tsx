@@ -39,7 +39,7 @@ export default function VideoUploadCard() {
         }}
       >
         {/* <video src="/header-goal.mp4" autoPlay muted loop /> */}
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <MuxPlayer
             className="overflow-hidden rounded-md aspect-[16/9] lg:w-[300px]"
             accent-color="#44997F"
@@ -55,7 +55,7 @@ export default function VideoUploadCard() {
             <p className="">First half highlight vs Atlas FC</p>
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <MuxPlayer
             className="overflow-hidden rounded-md aspect-[16/9] lg:w-[300px]"
             accent-color="#44997F"
@@ -71,7 +71,7 @@ export default function VideoUploadCard() {
             <p className="">Long shot attempt</p>
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <MuxPlayer
             className="overflow-hidden rounded-md aspect-[16/9] lg:w-[300px]"
             streamType="on-demand"

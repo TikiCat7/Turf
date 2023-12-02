@@ -16,7 +16,9 @@ import VideoUploadCard from '@/components/video-upload-card'
 export const metadata: Metadata = {
   title: 'Turf',
   creator: '@_WataruIkeda',
-  twitter: { images: [{ url: '/', width: 1200, height: 600 }] },
+  twitter: {
+    images: [{ url: '/logo-no-background.png', width: 1200, height: 600 }],
+  },
 }
 export default async function Home() {
   const user = await currentUser()
