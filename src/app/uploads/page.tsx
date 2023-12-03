@@ -1,6 +1,6 @@
 'use client'
 
-import { useOrganization, useUser } from '@clerk/nextjs'
+import { useAuth, useOrganization, useUser } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UpChunk } from '@mux/upchunk'
 import { format } from 'date-fns'
@@ -95,6 +95,8 @@ const Uploads = () => {
   }
 
   const org = useOrganization()
+  const auth = useAuth()
+  const isAdmin = auth.orgRole === 'admin'
   const [file, setFile] = useState<File>()
 
   const createUpload = async (values: z.infer<typeof formSchema>) => {
@@ -182,8 +184,7 @@ const Uploads = () => {
   return (
     <div className="flex-col py-16 w-4/5 space-y-4">
       <p className="text-4xl font-bold text-primary">Upload Video</p>
-      {org.organization?.name &&
-      user.user?.organizationMemberships[0].role === 'admin' ? (
+      {isAdmin ? (
         <>
           <p className="text-muted-foreground py-4">
             Uploading video to {org.organization?.name}. While uploading, please
